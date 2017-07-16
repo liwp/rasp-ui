@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withGoogleMap, GoogleMap, OverlayView } from 'react-google-maps';
 
 const RESOLUTION_TO_BOUNDS = {
@@ -22,9 +22,9 @@ const RESOLUTION_TO_BOUNDS = {
 
 const DAY_OFFSET_TO_RESOLUTION = [
   2,   // 0 - Today    - 2Km
-  4,   // 1 - Today    - UK4
+  /* 4,   // 1 - Today    - UK4*/
   2,   // 2 - Tomorrow - UK2
-  4,   // 3 - Tomorrow - UK4
+  /* 4,   // 3 - Tomorrow - UK4*/
   4,   // 4 - +2 days  - UK4
   12,  // 5 - +3 days  - UK12
   12,  // 6 - +4 days  - UK12
@@ -34,9 +34,9 @@ const DAY_OFFSET_TO_RESOLUTION = [
 
 const DAY_OFFSET_TO_DIR = [
   "UK2",
-  "UK4",
+  /* "UK4",*/
   "UK2+1",
-  "UK4+1",
+  /* "UK4+1",*/
   "UK4+2",
   "UK12+3",
   "UK12+4",
@@ -44,19 +44,17 @@ const DAY_OFFSET_TO_DIR = [
   "UK12+6",
 ];
 
-// TODO: COMMIT TO GIT
-// TODO: URL function
+function raspUrl(day, time) {
+  const dir = DAY_OFFSET_TO_DIR[day];
+  // TODO: what is this 'lst', or 'd2'? Anything to worry about with DST?
+  return `http://rasp.mrsap.org/${dir}/FCST/wstar.curr.${time}lst.d2.body.png`
+}
 
-const DAY = 0;
-const TIME = '0800';
-
-const DEFAULT_CENTER = { lat: 50.3, lng: -5.5 };
-const DEFAULT_ZOOM = 6;
-
-const OverlayViewExampleGoogleMap = withGoogleMap(() => (
+// TODO: prop types for day and time
+const OverlayViewExampleGoogleMap = withGoogleMap(({day, defaultCenter, defaultZoom, time}) => (
   <GoogleMap
-      defaultZoom={DEFAULT_ZOOM}
-      defaultCenter={DEFAULT_CENTER}
+      defaultZoom={defaultZoom}
+      defaultCenter={defaultCenter}
       options={{
         mapTypeControl: false,
         mapTypeId: 'terrain',
@@ -65,11 +63,11 @@ const OverlayViewExampleGoogleMap = withGoogleMap(() => (
       }}
   >
     <OverlayView
-        bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[DAY]]}
+        bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[day]]}
         mapPaneName={OverlayView.OVERLAY_LAYER}>
       <img
           alt="map"
-          src={`http://rasp.mrsap.org/${DAY_OFFSET_TO_DIR[DAY]}/FCST/wstar.curr.${TIME}lst.d2.body.png`}
+          src={raspUrl(day, time)}
           style={{
             width: '100%',
             height: '100%',
@@ -80,19 +78,12 @@ const OverlayViewExampleGoogleMap = withGoogleMap(() => (
   </GoogleMap>
 ));
 
-class Map extends Component {
-    render() {
-        return (
+const Map = (props) => (
             <OverlayViewExampleGoogleMap
-                containerElement={
-                    <div style={{ height: `100%` }} />
-                                 }
-                mapElement={
-                    <div style={{ height: `100%` }} />
-                           }
+                containerElement={<div style={{ width: `100%` }} />}
+                mapElement={<div style={{ height: `100%` }} />}
+                {...props}
             />
         );
-    }
-}
 
 export default Map;
