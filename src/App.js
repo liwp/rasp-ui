@@ -39,8 +39,10 @@ function timeNumberToTime(time) {
 
 class Header extends Component {
   render() {
-    const {day, time} = this.props;
+    const {day, loading, time} = this.props;
     return (
+      loading ?
+      <span>Loading…</span> :
       <span>{dayNumberToName(day)} - {timeNumberToTime(time)}</span>
     )
   }
@@ -48,15 +50,16 @@ class Header extends Component {
 
 class Footer extends Component {
   render() {
-    const {onDayBwd, onDayFwd, onNow, onTimeBwd, onTimeFwd} = this.props;
+    const {onDayBwd, onDayFwd, onHome, onNow, onTimeBwd, onTimeFwd} = this.props;
 
     return (
       <Flexbox justifyContent="space-around" flexDirection="row" width="100%">
-        <span style={{textAlign: 'center'}} onClick={onDayBwd}>&lt;&lt;</span>
-        <span style={{textAlign: 'center'}} onClick={onTimeBwd}>&lt;</span>
-        <span style={{textAlign: 'center'}} onClick={onNow}>X</span>
-        <span style={{textAlign: 'center'}} onClick={onTimeFwd}>&gt;</span>
-        <span style={{textAlign: 'center'}} onClick={onDayFwd}>&gt;&gt;</span>
+        <span onClick={onDayBwd}>&lt;&lt;</span>
+        <span onClick={onTimeBwd}>&lt;</span>
+        <span onClick={onNow}>O</span>
+        <span onClick={onTimeFwd}>&gt;</span>
+        <span onClick={onDayFwd}>&gt;&gt;</span>
+        <span style={{textTransform: 'uppercase'}} onClick={onHome}>Home</span>
       </Flexbox>
     )
   }
@@ -68,10 +71,15 @@ const DEFAULT_ZOOM = 11;
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {day: 0, time: 4};
+    this.state = {
+      center: DEFAULT_CENTER,
+      day: 0,
+      time: 4,
+    };
 
     this.onDayBwd = this.onDayBwd.bind(this);
     this.onDayFwd = this.onDayFwd.bind(this);
+    this.onHome = this.onHome.bind(this);
     this.onNow = this.onNow.bind(this);
     this.onTimeBwd = this.onTimeBwd.bind(this);
     this.onTimeFwd = this.onTimeFwd.bind(this);
@@ -87,6 +95,19 @@ class App extends Component {
     let {day} = this.state;
     day = (day + 1) % WEEKDAYS.length;
     this.setState({day, time: 4});
+  }
+
+  onHome() {
+    this.setState({loading: true});
+    window.navigator.geolocation.getCurrentPosition((position) => {
+      this.setState({
+        center: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        },
+        loading: false,
+      });
+    });
   }
 
   // TODO: badly names since we move to today, noon. We could move
@@ -108,7 +129,7 @@ class App extends Component {
   }
 
   render() {
-    const {day, time} = this.state;
+    const {center, day, loading, time} = this.state;
 
     return (
       <div className="App">
@@ -118,7 +139,7 @@ class App extends Component {
               element="header"
               height="60px"
           >
-            <Header day={day} time={time} />
+            <Header day={day} loading={loading} time={time} />
           </Flexbox>
 
           <Flexbox
@@ -126,8 +147,8 @@ class App extends Component {
               width="100%"
           >
             <Map
+                center={center}
                 day={day}
-                defaultCenter={DEFAULT_CENTER}
                 defaultZoom={DEFAULT_ZOOM}
                 time={timeNumberToTime(time)}
             />
@@ -142,6 +163,7 @@ class App extends Component {
             <Footer
                 onDayBwd={this.onDayBwd}
                 onDayFwd={this.onDayFwd}
+                onHome={this.onHome}
                 onNow={this.onNow}
                 onTimeBwd={this.onTimeBwd}
                 onTimeFwd={this.onTimeFwd}

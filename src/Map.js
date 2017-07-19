@@ -48,13 +48,14 @@ function raspUrl(day, time) {
   const dir = DAY_OFFSET_TO_DIR[day];
   // TODO: what is this 'lst', or 'd2'? Anything to worry about with DST?
   return `http://rasp.mrsap.org/${dir}/FCST/wstar.curr.${time}lst.d2.body.png`
+  //return `https://rasp-image-proxy-wwrxjzolka.now.sh/${dir}/FCST/wstar.curr.${time}lst.d2.body.png`
 }
 
 // TODO: prop types for day and time
-const OverlayViewExampleGoogleMap = withGoogleMap(({day, defaultCenter, defaultZoom, time}) => (
+const OverlayViewExampleGoogleMap = withGoogleMap(({center, day, defaultZoom, time}) => (
   <GoogleMap
+      center={center}
       defaultZoom={defaultZoom}
-      defaultCenter={defaultCenter}
       options={{
         mapTypeControl: false,
         mapTypeId: 'terrain',
@@ -78,10 +79,21 @@ const OverlayViewExampleGoogleMap = withGoogleMap(({day, defaultCenter, defaultZ
   </GoogleMap>
 ));
 
+const styles = {
+  container: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  map: {
+    flexGrow: 1
+  },
+};
+
 const Map = (props) => (
             <OverlayViewExampleGoogleMap
-                containerElement={<div style={{ width: `100%` }} />}
-                mapElement={<div style={{ height: `100%` }} />}
+                containerElement={<div style={styles.container} />}
+                mapElement={<div style={styles.map} />}
                 {...props}
             />
         );
