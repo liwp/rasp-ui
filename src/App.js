@@ -21,8 +21,13 @@ const WEEKDAYS = [
 ];
 
 function dayNumberToName(day) {
-  const today = new Date().getDay();
-  return WEEKDAYS[(today + day) % 7];
+  const d = new Date();
+  d.setDate(d.getDate() + day);
+  return d.toLocaleDateString('en-GB', {
+    weekday: 'short',
+    month: 'long',
+    day: 'numeric'
+  });
 }
 
 const HOURS = [
@@ -44,44 +49,28 @@ function timeNumberToTime(time) {
   return HOURS[time];
 }
 
-class Header extends Component {
-  render() {
-    const { day, loading, time } = this.props;
-    return loading ? (
-      <span>Loading…</span>
-    ) : (
-      <span>
-        {dayNumberToName(day)} - {timeNumberToTime(time)}
-      </span>
-    );
-  }
-}
+const Header = ({ day, time }) => (
+  <span>
+    {dayNumberToName(day)} - {timeNumberToTime(time)}
+  </span>
+);
 
-const FooterButton = ({ icon, onClick }) => {
-  return (
-    <Flexbox
-      justifyContent="center"
-      alignItems="center"
-      height="100%"
-      width="100%"
-      onClick={onClick}
-      style={{ cursor: 'pointer' }}
-    >
-      {icon}
-    </Flexbox>
-  );
-};
+const FooterButton = ({ icon, onClick }) => (
+  <Flexbox
+    justifyContent="center"
+    alignItems="center"
+    height="100%"
+    width="100%"
+    onClick={onClick}
+    style={{ cursor: 'pointer' }}
+  >
+    {icon}
+  </Flexbox>
+);
 
 class Footer extends Component {
   render() {
-    const {
-      onDayBwd,
-      onDayFwd,
-      onHome,
-      onNow,
-      onTimeBwd,
-      onTimeFwd
-    } = this.props;
+    const { onDayBwd, onDayFwd, onNow, onTimeBwd, onTimeFwd } = this.props;
 
     return (
       <Flexbox
@@ -95,16 +84,6 @@ class Footer extends Component {
         <FooterButton icon={<FaCircleO />} onClick={onNow} />
         <FooterButton icon={<FaAngleRight />} onClick={onTimeFwd} />
         <FooterButton icon={<FaAngleDoubleRight />} onClick={onDayFwd} />
-        <Flexbox
-          justifyContent="center"
-          alignItems="center"
-          height="100%"
-          width="100%"
-          onClick={onHome}
-          style={{ cursor: 'pointer', textTransform: 'uppercase' }}
-        >
-          Home
-        </Flexbox>
       </Flexbox>
     );
   }
@@ -124,7 +103,6 @@ class App extends Component {
 
     this.onDayBwd = this.onDayBwd.bind(this);
     this.onDayFwd = this.onDayFwd.bind(this);
-    this.onHome = this.onHome.bind(this);
     this.onNow = this.onNow.bind(this);
     this.onTimeBwd = this.onTimeBwd.bind(this);
     this.onTimeFwd = this.onTimeFwd.bind(this);
@@ -140,19 +118,6 @@ class App extends Component {
     let { day } = this.state;
     day = (day + 1) % WEEKDAYS.length;
     this.setState({ day, time: 4 });
-  }
-
-  onHome() {
-    this.setState({ loading: true });
-    window.navigator.geolocation.getCurrentPosition(position => {
-      this.setState({
-        center: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        },
-        loading: false
-      });
-    });
   }
 
   // TODO: badly names since we move to today, noon. We could move
@@ -174,13 +139,13 @@ class App extends Component {
   }
 
   render() {
-    const { center, day, loading, time } = this.state;
+    const { center, day, time } = this.state;
 
     return (
       <div className="App">
         <Flexbox flexDirection="column" minHeight="100vh" alignItems="center">
           <Flexbox alignItems="center" element="header" height="60px">
-            <Header day={day} loading={loading} time={time} />
+            <Header day={day} time={time} />
           </Flexbox>
 
           <Flexbox flexGrow={1} width="100%">

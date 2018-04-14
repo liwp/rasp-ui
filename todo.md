@@ -3,17 +3,29 @@ RASP To Do List
 
 In no particular order…
 
-- move the current location to a google map button (can we just use the GM UI?)
 - introduce multiple overlay options - star rating first
 - change the bwd/fwd buttons so that they rotate the day as well?
-- render the date or stop cycling from last day to first day
 - change images to `http://` to avoid using our proxy
 - work out if we can fix sizing on mobile (https://www.creativebloq.com/html5/12-html5-tricks-mobile-81412803)
 - go-to UI with BGA turn point DB
 - remove header and place time / loading indicator somewhere else to save space
-- fix current GOTO functionality (req for `transparent.png` fails)
 
 # Done
+
+## Map controls
+
+Looks like the GMaps API doesn't allow us to display a Home button. So I think
+we'll just drop this feature. Probably best just to implement the BGA turnpoint
+thingy.
+
+Instead of fixing the `Home` button I just removed it.
+
+- enable zoom controls
+- disable fullscreen control (it removes our toolbar)
+- render the date (or stop cycling from last day to first day)
+- move the current location to a google map button (can we just use the GM UI?)
+- fix current GOTO functionality (req for `transparent.png` fails)
+
 
 ## Icons
 

@@ -58,10 +58,11 @@ const OverlayViewExampleGoogleMap = withGoogleMap(
       center={center}
       defaultZoom={defaultZoom}
       options={{
+        fullscreenControl: false,
         mapTypeControl: false,
         mapTypeId: 'terrain',
         streetViewControl: false,
-        zoomControl: false
+        zoomControl: true
       }}
     >
       <OverlayView
