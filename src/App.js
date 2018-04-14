@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import Flexbox from 'flexbox-react';
+
+import FaAngleDoubleLeft from 'react-icons/lib/fa/angle-double-left';
+import FaAngleDoubleRight from 'react-icons/lib/fa/angle-double-right';
+import FaAngleLeft from 'react-icons/lib/fa/angle-left';
+import FaAngleRight from 'react-icons/lib/fa/angle-right';
+import FaCircleO from 'react-icons/lib/fa/circle-o';
+
 import Map from './Map';
 import './App.css';
 
@@ -50,6 +57,21 @@ class Header extends Component {
   }
 }
 
+const FooterButton = ({ icon, onClick }) => {
+  return (
+    <Flexbox
+      justifyContent="center"
+      alignItems="center"
+      height="100%"
+      width="100%"
+      onClick={onClick}
+      style={{ cursor: 'pointer' }}
+    >
+      {icon}
+    </Flexbox>
+  );
+};
+
 class Footer extends Component {
   render() {
     const {
@@ -62,15 +84,27 @@ class Footer extends Component {
     } = this.props;
 
     return (
-      <Flexbox justifyContent="space-around" flexDirection="row" width="100%">
-        <span onClick={onDayBwd}>&lt;&lt;</span>
-        <span onClick={onTimeBwd}>&lt;</span>
-        <span onClick={onNow}>O</span>
-        <span onClick={onTimeFwd}>&gt;</span>
-        <span onClick={onDayFwd}>&gt;&gt;</span>
-        <span style={{ textTransform: 'uppercase' }} onClick={onHome}>
+      <Flexbox
+        justifyContent="space-around"
+        flexDirection="row"
+        height="100%"
+        width="100%"
+      >
+        <FooterButton icon={<FaAngleDoubleLeft />} onClick={onDayBwd} />
+        <FooterButton icon={<FaAngleLeft />} onClick={onTimeBwd} />
+        <FooterButton icon={<FaCircleO />} onClick={onNow} />
+        <FooterButton icon={<FaAngleRight />} onClick={onTimeFwd} />
+        <FooterButton icon={<FaAngleDoubleRight />} onClick={onDayFwd} />
+        <Flexbox
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
+          width="100%"
+          onClick={onHome}
+          style={{ cursor: 'pointer', textTransform: 'uppercase' }}
+        >
           Home
-        </span>
+        </Flexbox>
       </Flexbox>
     );
   }
