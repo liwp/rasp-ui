@@ -4,9 +4,8 @@ RASP To Do List
 In no particular order…
 
 - introduce multiple overlay options - star rating first
-- work out if we can fix sizing on mobile (https://www.creativebloq.com/html5/12-html5-tricks-mobile-81412803)
 - go-to UI with BGA turn point DB
-- remove header and place time / loading indicator somewhere else to save space
+- remove header and place time / loading indicator somewhere else to save space (some animated fade-in/out label?)
 
 # Done
 
@@ -62,3 +61,12 @@ so you can rolls through all images by just clicking on the fwd (or bwd) button.
 
 We also changed the `today` button to navigate to the current hour when it's
 past noon.
+
+
+## Layout
+
+It seems like the current Mobile Safari `100vh` behaviour (where the chrome
+hides some of the page content) is intentional, so I won't be trying to fix this
+at this moment. The workaround for me personally is to use Chrome.
+
+- work out if we can fix sizing on mobile (https://www.creativebloq.com/html5/12-html5-tricks-mobile-81412803)

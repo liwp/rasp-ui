@@ -1,7 +1,7 @@
 import React from 'react';
 import { withGoogleMap, GoogleMap, OverlayView } from 'react-google-maps';
 
-import { HOURS, timeNumberToTime } from './timeFormat';
+import { HOURS, timeNumberToTime } from './time';
 
 const RESOLUTION_TO_BOUNDS = {
   2: {
