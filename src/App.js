@@ -1,96 +1,20 @@
 import React, { Component } from 'react';
 import Flexbox from 'flexbox-react';
 
-import FaAngleDoubleLeft from 'react-icons/lib/fa/angle-double-left';
-import FaAngleDoubleRight from 'react-icons/lib/fa/angle-double-right';
-import FaAngleLeft from 'react-icons/lib/fa/angle-left';
-import FaAngleRight from 'react-icons/lib/fa/angle-right';
-import FaCircleO from 'react-icons/lib/fa/circle-o';
-
+import Footer from './Footer';
+import Header from './Header';
 import Map from './Map';
+import { HOURS } from './timeFormat';
+
 import './App.css';
-
-const WEEKDAYS = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
-];
-
-function dayNumberToName(day) {
-  const d = new Date();
-  d.setDate(d.getDate() + day);
-  return d.toLocaleDateString('en-GB', {
-    weekday: 'short',
-    month: 'long',
-    day: 'numeric'
-  });
-}
-
-const HOURS = [
-  '0800',
-  '0900',
-  '1000',
-  '1100',
-  '1200',
-  '1300',
-  '1400',
-  '1500',
-  '1600',
-  '1700',
-  '1800',
-  '1900'
-];
-
-function timeNumberToTime(time) {
-  return HOURS[time];
-}
-
-const Header = ({ day, time }) => (
-  <span>
-    {dayNumberToName(day)} - {timeNumberToTime(time)}
-  </span>
-);
-
-const FooterButton = ({ icon, onClick }) => (
-  <Flexbox
-    justifyContent="center"
-    alignItems="center"
-    height="100%"
-    width="100%"
-    onClick={onClick}
-    style={{ cursor: 'pointer' }}
-  >
-    {icon}
-  </Flexbox>
-);
-
-class Footer extends Component {
-  render() {
-    const { onDayBwd, onDayFwd, onNow, onTimeBwd, onTimeFwd } = this.props;
-
-    return (
-      <Flexbox
-        justifyContent="space-around"
-        flexDirection="row"
-        height="100%"
-        width="100%"
-      >
-        <FooterButton icon={<FaAngleDoubleLeft />} onClick={onDayBwd} />
-        <FooterButton icon={<FaAngleLeft />} onClick={onTimeBwd} />
-        <FooterButton icon={<FaCircleO />} onClick={onNow} />
-        <FooterButton icon={<FaAngleRight />} onClick={onTimeFwd} />
-        <FooterButton icon={<FaAngleDoubleRight />} onClick={onDayFwd} />
-      </Flexbox>
-    );
-  }
-}
 
 const DEFAULT_CENTER = { lat: 52.18572, lng: -0.14591 };
 const DEFAULT_ZOOM = 11;
+
+function getTodaysTime() {
+  const hour = new Date().getHours();
+  return HOURS.indexOf(hour < 12 ? '1200' : hour + '00');
+}
 
 class App extends Component {
   constructor(props) {
@@ -98,44 +22,50 @@ class App extends Component {
     this.state = {
       center: DEFAULT_CENTER,
       day: 0,
-      time: 4
+      time: getTodaysTime()
     };
 
     this.onDayBwd = this.onDayBwd.bind(this);
     this.onDayFwd = this.onDayFwd.bind(this);
-    this.onNow = this.onNow.bind(this);
+    this.onToday = this.onToday.bind(this);
     this.onTimeBwd = this.onTimeBwd.bind(this);
     this.onTimeFwd = this.onTimeFwd.bind(this);
   }
 
   onDayBwd() {
     let { day } = this.state;
-    day = (day + WEEKDAYS.length - 1) % WEEKDAYS.length;
-    this.setState({ day, time: 4 });
+    day = (day + 6) % 7;
+    this.setState({ day, time: HOURS.indexOf('1200') });
   }
 
   onDayFwd() {
     let { day } = this.state;
-    day = (day + 1) % WEEKDAYS.length;
-    this.setState({ day, time: 4 });
+    day = (day + 1) % 7;
+    this.setState({ day, time: HOURS.indexOf('1200') });
   }
 
-  // TODO: badly names since we move to today, noon. We could move
-  // to noon or the current hour, which ever is later.
-  onNow() {
-    this.setState({ day: 0, time: 4 });
+  onToday() {
+    this.setState({ day: 0, time: getTodaysTime() });
   }
 
   onTimeBwd() {
-    let { time } = this.state;
-    time = (time + HOURS.length - 1) % HOURS.length;
-    this.setState({ time });
+    let { day, time } = this.state;
+    time--;
+    if (time < 0) {
+      day = (day + 6) % 7;
+    }
+    time = (time + HOURS.length) % HOURS.length;
+    this.setState({ day, time });
   }
 
   onTimeFwd() {
-    let { time } = this.state;
-    time = (time + 1) % HOURS.length;
-    this.setState({ time });
+    let { day, time } = this.state;
+    time++;
+    if (time >= HOURS.length) {
+      day = (day + 1) % 7;
+    }
+    time = time % HOURS.length;
+    this.setState({ day, time });
   }
 
   render() {
@@ -153,7 +83,7 @@ class App extends Component {
               center={center}
               day={day}
               defaultZoom={DEFAULT_ZOOM}
-              time={timeNumberToTime(time)}
+              time={time}
             />
           </Flexbox>
 
@@ -167,7 +97,7 @@ class App extends Component {
               onDayBwd={this.onDayBwd}
               onDayFwd={this.onDayFwd}
               onHome={this.onHome}
-              onNow={this.onNow}
+              onToday={this.onToday}
               onTimeBwd={this.onTimeBwd}
               onTimeFwd={this.onTimeFwd}
             />

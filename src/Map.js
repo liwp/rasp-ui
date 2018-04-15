@@ -1,6 +1,8 @@
 import React from 'react';
 import { withGoogleMap, GoogleMap, OverlayView } from 'react-google-maps';
 
+import { HOURS, timeNumberToTime } from './timeFormat';
+
 const RESOLUTION_TO_BOUNDS = {
   2: {
     ne: { lat: 49.438343, lng: -10.725891100000013 },
@@ -46,10 +48,26 @@ const DAY_OFFSET_TO_DIR = [
 
 function raspUrl(day, time) {
   const dir = DAY_OFFSET_TO_DIR[day];
+  const timeString = timeNumberToTime(time);
   // TODO: what is this 'lst', or 'd2'? Anything to worry about with DST?
-  return `http://rasp.mrsap.org/${dir}/FCST/wstar.curr.${time}lst.d2.body.png`;
+  return `http://rasp.mrsap.org/${dir}/FCST/wstar.curr.${timeString}lst.d2.body.png`;
   //return `https://rasp-image-proxy-wwrxjzolka.now.sh/${dir}/FCST/wstar.curr.${time}lst.d2.body.png`
 }
+
+// Force image preloading:
+//
+// First load noon for all days
+DAY_OFFSET_TO_DIR.forEach((_, day) => {
+  const image = new Image();
+  image.src = raspUrl(day, HOURS.indexOf('1200'));
+});
+// Then load all other times starting from today
+DAY_OFFSET_TO_DIR.forEach((_, day) => {
+  HOURS.forEach((_, time) => {
+    const image = new Image();
+    image.src = raspUrl(day, time);
+  });
+});
 
 // TODO: prop types for day and time
 const OverlayViewExampleGoogleMap = withGoogleMap(
