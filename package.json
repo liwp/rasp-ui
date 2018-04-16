@@ -5,6 +5,7 @@
   "dependencies": {
     "flexbox-react": "^4.4.0",
     "react": "^16.3.1",
+    "react-burger-menu": "^2.4.2",
     "react-dom": "^16.3.1",
     "react-google-maps": "^9.4.5",
     "react-icons": "^2.2.7",

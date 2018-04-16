@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap, OverlayView } from 'react-google-maps';
 
 import { HOURS, timeNumberToTime } from './time';
@@ -46,32 +46,58 @@ const DAY_OFFSET_TO_DIR = [
   'UK12+6'
 ];
 
-function raspUrl(day, time) {
+function raspUrl(layer, day, time) {
   const dir = DAY_OFFSET_TO_DIR[day];
   const timeString = timeNumberToTime(time);
   // TODO: what is this 'lst', or 'd2'? Anything to worry about with DST?
-  return `http://rasp.mrsap.org/${dir}/FCST/wstar.curr.${timeString}lst.d2.body.png`;
+  return `http://rasp.mrsap.org/${dir}/FCST/${layer}.curr.${timeString}lst.d2.body.png`;
   //return `https://rasp-image-proxy-wwrxjzolka.now.sh/${dir}/FCST/wstar.curr.${time}lst.d2.body.png`
 }
 
-// Force image preloading:
-//
-// First load noon for all days
-DAY_OFFSET_TO_DIR.forEach((_, day) => {
-  const image = new Image();
-  image.src = raspUrl(day, HOURS.indexOf('1200'));
-});
-// Then load all other times starting from today
-DAY_OFFSET_TO_DIR.forEach((_, day) => {
-  HOURS.forEach((_, time) => {
-    const image = new Image();
-    image.src = raspUrl(day, time);
-  });
-});
+class OverlayImage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  static getDerivedStateFromProps({ layer }, prevState) {
+    // Force image preloading:
+    //
+    // First load noon for all days
+    DAY_OFFSET_TO_DIR.forEach((_, day) => {
+      const image = new Image();
+      image.src = raspUrl(layer, day, HOURS.indexOf('1200'));
+    });
+    // Then load all other times starting from today
+    DAY_OFFSET_TO_DIR.forEach((_, day) => {
+      HOURS.forEach((_, time) => {
+        const image = new Image();
+        image.src = raspUrl(layer, day, time);
+      });
+    });
+
+    return null;
+  }
+
+  render() {
+    const { day, layer, time } = this.props;
+    return (
+      <img
+        alt="map"
+        src={raspUrl(layer, day, time)}
+        style={{
+          width: '100%',
+          height: '100%',
+          opacity: '0.5'
+        }}
+      />
+    );
+  }
+}
 
 // TODO: prop types for day and time
 const OverlayViewExampleGoogleMap = withGoogleMap(
-  ({ center, day, defaultZoom, time }) => (
+  ({ center, day, defaultZoom, layer, time }) => (
     <GoogleMap
       center={center}
       defaultZoom={defaultZoom}
@@ -87,15 +113,7 @@ const OverlayViewExampleGoogleMap = withGoogleMap(
         bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[day]]}
         mapPaneName={OverlayView.OVERLAY_LAYER}
       >
-        <img
-          alt="map"
-          src={raspUrl(day, time)}
-          style={{
-            width: '100%',
-            height: '100%',
-            opacity: '0.5'
-          }}
-        />
+        <OverlayImage day={day} layer={layer} time={time} />
       </OverlayView>
     </GoogleMap>
   )
