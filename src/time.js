@@ -14,7 +14,7 @@ export const HOURS = [
 ];
 
 export function dayNumberToName(day) {
-  const d = new Date();
+  const d = new Date(Date.now());
   d.setDate(d.getDate() + day);
   return d.toLocaleDateString('en-GB', {
     weekday: 'short',
@@ -55,18 +55,17 @@ export function incDay({ day }) {
   return { day, time: HOURS.indexOf('1200') };
 }
 
-export function today(date) {
-  return () => {
-    const hour = date.getHours();
-    if (hour < 8) {
-      return { day: 0, time: HOURS.indexOf('0800') };
-    }
-    if (hour <= 12) {
-      return { day: 0, time: HOURS.indexOf('1200') };
-    }
-    if (hour > 19) {
-      return { day: 1, time: HOURS.indexOf('1200') };
-    }
-    return { day: 0, time: HOURS.indexOf(hour + '00') };
-  };
+export function today() {
+  const d = new Date(Date.now());
+  const hour = d.getHours();
+  if (hour < 8) {
+    return { day: 0, time: HOURS.indexOf('0800') };
+  }
+  if (hour <= 12) {
+    return { day: 0, time: HOURS.indexOf('1200') };
+  }
+  if (hour > 19) {
+    return { day: 1, time: HOURS.indexOf('1200') };
+  }
+  return { day: 0, time: HOURS.indexOf(hour + '00') };
 }

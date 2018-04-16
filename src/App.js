@@ -16,7 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       center: DEFAULT_CENTER,
-      ...today(new Date())()
+      ...today()
     };
 
     this.onDayBwd = this.onDayBwd.bind(this);
@@ -35,7 +35,7 @@ class App extends Component {
   }
 
   onToday() {
-    this.setState(today(new Date()));
+    this.setState(today);
   }
 
   onTimeFwd() {
