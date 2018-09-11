@@ -3,6 +3,10 @@ RASP To Do List
 
 In no particular order…
 
+- store centre point in query params
+- store zoom level in query params
+- add layers
+- update dependencies
 - introduce multiple overlay options - star rating first
 - go-to UI with BGA turn point DB
 - remove header and place time / loading indicator somewhere else to save space (some animated fade-in/out label?)

@@ -14,8 +14,10 @@ const DEFAULT_CENTER = { lat: 52.18572, lng: -0.14591 };
 const DEFAULT_ZOOM = 11;
 
 const LAYER_NAME = {
+  blwind:  'Boundary layer wind',
+  stars: 'Star rating',
   wstar: 'Updraft velocity',
-  stars: 'Star rating'
+  zsfclclmask: 'Cu Cloudbase'
 };
 
 // TODO: move styling to CSS file?
@@ -32,13 +34,13 @@ const styles = {
   },
   bmCross: {
     background: '#bdc3c7',
-    height: '30px'
+    height: '20px'
   },
   bmCrossButton: {
-    height: '36px',
-    right: '14px',
+    height: '24px',
+    right: '8px',
     top: '8px',
-    width: '36px'
+    width: '24px'
   },
   bmMenu: {
     background: '#FFFFFF',
@@ -71,8 +73,10 @@ class App extends Component {
     this.onToday = this.onToday.bind(this);
     this.onTimeFwd = this.onTimeFwd.bind(this);
     this.onDayFwd = this.onDayFwd.bind(this);
-    this.onSelectWstar = this.onSelectWstar.bind(this);
+    this.onSelectBlwind = this.onSelectBlwind.bind(this);
     this.onSelectStars = this.onSelectStars.bind(this);
+    this.onSelectWstar = this.onSelectWstar.bind(this);
+    this.onSelectZsfclclmask = this.onSelectZsfclclmask.bind(this);
     this.onMenuStateChange = this.onMenuStateChange.bind(this);
   }
 
@@ -96,12 +100,20 @@ class App extends Component {
     this.setState(incDay);
   }
 
-  onSelectWstar() {
-    this.setState({ isMenuOpen: false, layer: 'wstar' });
+  onSelectBlwind() {
+    this.setState({ isMenuOpen: false, layer: 'blwind' });
   }
 
   onSelectStars() {
     this.setState({ isMenuOpen: false, layer: 'stars' });
+  }
+
+  onSelectWstar() {
+    this.setState({ isMenuOpen: false, layer: 'wstar' });
+  }
+
+  onSelectZsfclclmask() {
+    this.setState({ isMenuOpen: false, layer: 'zsfclclmask' });
   }
 
   onMenuStateChange({ isOpen }) {
@@ -121,20 +133,32 @@ class App extends Component {
           width={200}
         >
           <span
-            style={{ cursor: 'pointer', margin: 20 }}
+            style={{ cursor: 'pointer', margin: 10 }}
+            onClick={this.onSelectBlwind}
+          >
+            {LAYER_NAME.blwind}
+          </span>
+          <span
+            style={{ cursor: 'pointer', margin: 10 }}
+            onClick={this.onSelectStars}
+          >
+            {LAYER_NAME.stars}
+          </span>
+          <span
+            style={{ cursor: 'pointer', margin: 10 }}
             onClick={this.onSelectWstar}
           >
             {LAYER_NAME.wstar}
           </span>
           <span
-            style={{ cursor: 'pointer', margin: 20 }}
-            onClick={this.onSelectStars}
+            style={{ cursor: 'pointer', margin: 10 }}
+            onClick={this.onSelectZsfclclmask}
           >
-            {LAYER_NAME.stars}
+            {LAYER_NAME.zsfclclmask}
           </span>
         </Menu>
         <Flexbox flexDirection="column" minHeight="100vh" alignItems="center">
-          <Flexbox alignItems="center" element="header" height="60px">
+          <Flexbox alignItems="center" element="header" height="60px" paddingLeft="60px" paddingRight="15px">
             <Header day={day} layer={LAYER_NAME[layer]} time={time} />
           </Flexbox>
 

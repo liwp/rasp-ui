@@ -18,7 +18,7 @@ export function dayNumberToName(day) {
   d.setDate(d.getDate() + day);
   return d.toLocaleDateString('en-GB', {
     weekday: 'short',
-    month: 'long',
+    month: 'short',
     day: 'numeric'
   });
 }
