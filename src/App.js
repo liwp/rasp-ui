@@ -11,7 +11,7 @@ import { decDay, decTime, incDay, incTime, today } from './time';
 import './App.css';
 
 const DEFAULT_CENTER = { lat: 52.18572, lng: -0.14591 };
-const DEFAULT_ZOOM = 11;
+const DEFAULT_ZOOM = 10;
 
 const LAYER_NAME = {
   blwind:  'Boundary layer wind',
