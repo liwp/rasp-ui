@@ -17,6 +17,7 @@
     "deploy": "yarn build && surge build https://rasp.surge.sh",
     "eject": "react-scripts eject",
     "precommit": "precise-commits",
+    "prettier": "prettier --write src/**",
     "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom"
   },

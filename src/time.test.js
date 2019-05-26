@@ -20,7 +20,7 @@ afterAll(() => {
 
 test('dayNumberToName outputs correct format', () => {
   const s = dayNumberToName(3);
-  expect(s).toEqual('Mon, November 21');
+  expect(s).toEqual('Mon, Nov 21');
 });
 
 test('decDay decrements day', () => {
