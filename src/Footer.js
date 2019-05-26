@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Flexbox from 'flexbox-react';
-import FaAngleDoubleLeft from 'react-icons/lib/fa/angle-double-left';
-import FaAngleDoubleRight from 'react-icons/lib/fa/angle-double-right';
-import FaAngleLeft from 'react-icons/lib/fa/angle-left';
-import FaAngleRight from 'react-icons/lib/fa/angle-right';
-import FaAngleUp from 'react-icons/lib/fa/angle-up';
+import {
+  FiChevronsLeft as LeftLeft,
+  FiChevronsRight as RightRight,
+  FiChevronLeft as Left,
+  FiChevronRight as Right,
+  FiChevronUp as Up
+} from 'react-icons/fi';
 
 const FooterButton = ({ icon }) => (
   <Flexbox
@@ -30,45 +32,37 @@ class Footer extends Component {
       >
         <FooterButton
           icon={
-            <FaAngleDoubleLeft
-              size={48}
+            <LeftLeft
               onClick={onDayBwd}
+              size={36}
               style={{ cursor: 'pointer' }}
             />
           }
         />
         <FooterButton
           icon={
-            <FaAngleLeft
-              size={48}
-              onClick={onTimeBwd}
-              style={{ cursor: 'pointer' }}
-            />
+            <Left onClick={onTimeBwd} size={36} style={{ cursor: 'pointer' }} />
           }
         />
         <FooterButton
           icon={
-            <FaAngleUp
-              size={48}
-              onClick={onToday}
-              style={{ cursor: 'pointer' }}
-            />
+            <Up onClick={onToday} size={36} style={{ cursor: 'pointer' }} />
           }
         />
         <FooterButton
           icon={
-            <FaAngleRight
-              size={48}
+            <Right
               onClick={onTimeFwd}
+              size={36}
               style={{ cursor: 'pointer' }}
             />
           }
         />
         <FooterButton
           icon={
-            <FaAngleDoubleRight
-              size={48}
+            <RightRight
               onClick={onDayFwd}
+              size={36}
               style={{ cursor: 'pointer' }}
             />
           }

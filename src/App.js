@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Flexbox from 'flexbox-react';
 import { slide as Menu } from 'react-burger-menu';
-import FaBars from 'react-icons/lib/fa/bars';
+import { FiMenu } from 'react-icons/fi';
 
 import Footer from './Footer';
 import Header from './Header';
@@ -14,33 +14,23 @@ const DEFAULT_CENTER = { lat: 52.18572, lng: -0.14591 };
 const DEFAULT_ZOOM = 10;
 
 const LAYER_NAME = {
-  blwind:  'Boundary layer wind',
+  blwind: 'BL wind',
+  zsfclclmask: 'Cu Cloudbase',
   stars: 'Star rating',
-  wstar: 'Updraft velocity',
-  zsfclclmask: 'Cu Cloudbase'
+  wstar: 'Updraft velocity'
 };
 
 // TODO: move styling to CSS file?
 const styles = {
   bmBurgerButton: {
     position: 'fixed',
-    width: '36px',
+    width: '30px',
     height: '30px',
-    left: '15px',
-    top: '15px'
+    left: '8px',
+    top: '8px'
   },
   bmBurgerBars: {
     background: '#373a47'
-  },
-  bmCross: {
-    background: '#bdc3c7',
-    height: '20px'
-  },
-  bmCrossButton: {
-    height: '24px',
-    right: '8px',
-    top: '8px',
-    width: '24px'
   },
   bmMenu: {
     background: '#FFFFFF',
@@ -51,7 +41,8 @@ const styles = {
   },
   bmItemList: {
     color: '#b8b7ad',
-    padding: '0.8em'
+    height: 'default',
+    margin: '0.8em'
   },
   bmOverlay: {
     background: 'rgba(0, 0, 0, 0.3)'
@@ -126,7 +117,7 @@ class App extends Component {
     return (
       <div className="App">
         <Menu
-          customBurgerIcon={<FaBars />}
+          customBurgerIcon={<FiMenu />}
           isOpen={isMenuOpen}
           onStateChange={this.onMenuStateChange}
           styles={styles}
@@ -158,7 +149,7 @@ class App extends Component {
           </span>
         </Menu>
         <Flexbox flexDirection="column" minHeight="100vh" alignItems="center">
-          <Flexbox alignItems="center" element="header" height="60px" paddingLeft="60px" paddingRight="15px">
+          <Flexbox alignItems="center" element="header" height="45px">
             <Header day={day} layer={LAYER_NAME[layer]} time={time} />
           </Flexbox>
 
@@ -175,7 +166,7 @@ class App extends Component {
           <Flexbox
             alignItems="center"
             element="footer"
-            height="60px"
+            height="45px"
             width="100%"
           >
             <Footer
