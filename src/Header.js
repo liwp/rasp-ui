@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { dayNumberToName, timeNumberToTime } from './time';
+import { dayNumberToName, timeNumberToTime } from "./time";
 
 const style = {
-  textAlign: 'center'
+  textAlign: "center"
 };
 
 const Header = ({ day, layer, time }) => (

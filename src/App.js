@@ -1,49 +1,49 @@
-import React, { Component } from 'react';
-import Flexbox from 'flexbox-react';
-import { slide as Menu } from 'react-burger-menu';
-import { FiMenu } from 'react-icons/fi';
+import React, { Component } from "react";
+import Flexbox from "flexbox-react";
+import { slide as Menu } from "react-burger-menu";
+import { FiMenu } from "react-icons/fi";
 
-import Footer from './Footer';
-import Header from './Header';
-import Map from './Map';
-import { decDay, decTime, incDay, incTime, today } from './time';
+import Footer from "./Footer";
+import Header from "./Header";
+import Map from "./Map";
+import { decDay, decTime, incDay, incTime, today } from "./time";
 
-import './App.css';
+import "./App.css";
 
 const LAYER_NAME = {
-  blwind: 'BL wind',
-  zsfclclmask: 'Cu Cloudbase',
-  stars: 'Star rating',
-  wstar: 'Updraft velocity'
+  blwind: "BL wind",
+  zsfclclmask: "Cu Cloudbase",
+  stars: "Star rating",
+  wstar: "Updraft velocity"
 };
 
-const DEFAULT_LAYER = 'stars';
+const DEFAULT_LAYER = "stars";
 
 const styles = {
   bmBurgerButton: {
-    position: 'fixed',
-    width: '30px',
-    height: '30px',
-    left: '8px',
-    top: '8px'
+    position: "fixed",
+    width: "30px",
+    height: "30px",
+    left: "8px",
+    top: "8px"
   },
   bmBurgerBars: {
-    background: '#373a47'
+    background: "#373a47"
   },
   bmMenu: {
-    background: '#FFFFFF',
-    fontSize: '1.15em'
+    background: "#FFFFFF",
+    fontSize: "1.15em"
   },
   bmMorphShape: {
-    fill: '#373a47'
+    fill: "#373a47"
   },
   bmItemList: {
-    color: '#b8b7ad',
-    height: 'default',
-    margin: '0.8em'
+    color: "#b8b7ad",
+    height: "default",
+    margin: "0.8em"
   },
   bmOverlay: {
-    background: 'rgba(0, 0, 0, 0.3)'
+    background: "rgba(0, 0, 0, 0.3)"
   }
 };
 
@@ -89,19 +89,19 @@ class App extends Component {
   }
 
   onSelectBlwind() {
-    this.setState({ isMenuOpen: false, layer: 'blwind' });
+    this.setState({ isMenuOpen: false, layer: "blwind" });
   }
 
   onSelectStars() {
-    this.setState({ isMenuOpen: false, layer: 'stars' });
+    this.setState({ isMenuOpen: false, layer: "stars" });
   }
 
   onSelectWstar() {
-    this.setState({ isMenuOpen: false, layer: 'wstar' });
+    this.setState({ isMenuOpen: false, layer: "wstar" });
   }
 
   onSelectZsfclclmask() {
-    this.setState({ isMenuOpen: false, layer: 'zsfclclmask' });
+    this.setState({ isMenuOpen: false, layer: "zsfclclmask" });
   }
 
   onMenuStateChange({ isOpen }) {
@@ -121,25 +121,25 @@ class App extends Component {
           width={200}
         >
           <span
-            style={{ cursor: 'pointer', margin: 10 }}
+            style={{ cursor: "pointer", margin: 10 }}
             onClick={this.onSelectBlwind}
           >
             {LAYER_NAME.blwind}
           </span>
           <span
-            style={{ cursor: 'pointer', margin: 10 }}
+            style={{ cursor: "pointer", margin: 10 }}
             onClick={this.onSelectStars}
           >
             {LAYER_NAME.stars}
           </span>
           <span
-            style={{ cursor: 'pointer', margin: 10 }}
+            style={{ cursor: "pointer", margin: 10 }}
             onClick={this.onSelectWstar}
           >
             {LAYER_NAME.wstar}
           </span>
           <span
-            style={{ cursor: 'pointer', margin: 10 }}
+            style={{ cursor: "pointer", margin: 10 }}
             onClick={this.onSelectZsfclclmask}
           >
             {LAYER_NAME.zsfclclmask}

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import Flexbox from 'flexbox-react';
+import React, { Component } from "react";
+import Flexbox from "flexbox-react";
 import {
   FiChevronsLeft as LeftLeft,
   FiChevronsRight as RightRight,
   FiChevronLeft as Left,
   FiChevronRight as Right,
   FiChevronUp as Up
-} from 'react-icons/fi';
+} from "react-icons/fi";
 
 const FooterButton = ({ icon }) => (
   <Flexbox
@@ -35,18 +35,18 @@ class Footer extends Component {
             <LeftLeft
               onClick={onDayBwd}
               size={36}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
             />
           }
         />
         <FooterButton
           icon={
-            <Left onClick={onTimeBwd} size={36} style={{ cursor: 'pointer' }} />
+            <Left onClick={onTimeBwd} size={36} style={{ cursor: "pointer" }} />
           }
         />
         <FooterButton
           icon={
-            <Up onClick={onToday} size={36} style={{ cursor: 'pointer' }} />
+            <Up onClick={onToday} size={36} style={{ cursor: "pointer" }} />
           }
         />
         <FooterButton
@@ -54,7 +54,7 @@ class Footer extends Component {
             <Right
               onClick={onTimeFwd}
               size={36}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
             />
           }
         />
@@ -63,7 +63,7 @@ class Footer extends Component {
             <RightRight
               onClick={onDayFwd}
               size={36}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
             />
           }
         />

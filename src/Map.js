@@ -1,13 +1,13 @@
-import React, { Component, useRef } from 'react';
+import React, { Component, useRef } from "react";
 import {
   GoogleMap,
   OverlayView,
   withGoogleMap,
   withScriptjs
-} from 'react-google-maps';
-import { useQueryParam, NumberParam } from 'use-query-params';
+} from "react-google-maps";
+import { useQueryParam, NumberParam } from "use-query-params";
 
-import { HOURS, timeNumberToTime } from './time';
+import { HOURS, timeNumberToTime } from "./time";
 
 const RESOLUTION_TO_BOUNDS = {
   2: {
@@ -42,14 +42,14 @@ const DAY_OFFSET_TO_RESOLUTION = [
 
 const DAY_OFFSET_TO_DIR = [
   //'UK2',
-  'UK4',
+  "UK4",
   //'UK2+1',
-  'UK4+1',
-  'UK4+2',
-  'UK12+3',
-  'UK12+4',
-  'UK12+5',
-  'UK12+6'
+  "UK4+1",
+  "UK4+2",
+  "UK12+3",
+  "UK12+4",
+  "UK12+5",
+  "UK12+6"
 ];
 
 function raspUrl(layer, day, time) {
@@ -70,7 +70,7 @@ class OverlayImage extends Component {
     // First load noon for all days
     DAY_OFFSET_TO_DIR.forEach((_, day) => {
       const image = new Image();
-      image.src = raspUrl(layer, day, HOURS.indexOf('1200'));
+      image.src = raspUrl(layer, day, HOURS.indexOf("1200"));
     });
     // Then load all other times starting from today
     DAY_OFFSET_TO_DIR.forEach((_, day) => {
@@ -90,9 +90,9 @@ class OverlayImage extends Component {
         alt="map"
         src={raspUrl(layer, day, time)}
         style={{
-          width: '100%',
-          height: '100%',
-          opacity: '0.5'
+          width: "100%",
+          height: "100%",
+          opacity: "0.5"
         }}
       />
     );
@@ -106,9 +106,9 @@ const DEFAULT_LNG = -0.14591;
 const RaspMap = withScriptjs(
   withGoogleMap(({ center, day, layer, time }) => {
     const map = useRef(null);
-    const [lat = DEFAULT_LAT, setLat] = useQueryParam('lat', NumberParam);
-    const [lng = DEFAULT_LNG, setLng] = useQueryParam('lng', NumberParam);
-    const [zoom = DEFAULT_ZOOM, setZoom] = useQueryParam('zoom', NumberParam);
+    const [lat = DEFAULT_LAT, setLat] = useQueryParam("lat", NumberParam);
+    const [lng = DEFAULT_LNG, setLng] = useQueryParam("lng", NumberParam);
+    const [zoom = DEFAULT_ZOOM, setZoom] = useQueryParam("zoom", NumberParam);
 
     return (
       <GoogleMap
@@ -123,7 +123,7 @@ const RaspMap = withScriptjs(
         options={{
           fullscreenControl: false,
           mapTypeControl: false,
-          mapTypeId: 'terrain',
+          mapTypeId: "terrain",
           streetViewControl: false,
           zoomControl: true
         }}
@@ -142,9 +142,9 @@ const RaspMap = withScriptjs(
 
 const styles = {
   container: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column'
+    width: "100%",
+    display: "flex",
+    flexDirection: "column"
   },
   map: {
     flexGrow: 1
