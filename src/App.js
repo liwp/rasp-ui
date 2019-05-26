@@ -10,8 +10,6 @@ import { decDay, decTime, incDay, incTime, today } from './time';
 
 import './App.css';
 
-const DEFAULT_CENTER = { lat: 52.18572, lng: -0.14591 };
-
 const LAYER_NAME = {
   blwind: 'BL wind',
   zsfclclmask: 'Cu Cloudbase',
@@ -19,7 +17,8 @@ const LAYER_NAME = {
   wstar: 'Updraft velocity'
 };
 
-// TODO: move styling to CSS file?
+const DEFAULT_LAYER = 'stars';
+
 const styles = {
   bmBurgerButton: {
     position: 'fixed',
@@ -52,9 +51,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      center: DEFAULT_CENTER,
       isMenuOpen: false,
-      layer: 'wstar',
+      layer: DEFAULT_LAYER,
       ...today()
     };
 
@@ -111,7 +109,7 @@ class App extends Component {
   }
 
   render() {
-    const { center, day, isMenuOpen, layer, time } = this.state;
+    const { day, isMenuOpen, layer, time } = this.state;
 
     return (
       <div className="App">
@@ -153,7 +151,7 @@ class App extends Component {
           </Flexbox>
 
           <Flexbox flexGrow={1} width="100%">
-            <Map center={center} day={day} layer={layer} time={time} />
+            <Map day={day} layer={layer} time={time} />
           </Flexbox>
 
           <Flexbox

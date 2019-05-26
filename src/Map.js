@@ -99,16 +99,26 @@ class OverlayImage extends Component {
   }
 }
 
+const DEFAULT_ZOOM = 10;
+const DEFAULT_LAT = 52.18572;
+const DEFAULT_LNG = -0.14591;
+
 const RaspMap = withScriptjs(
   withGoogleMap(({ center, day, layer, time }) => {
-    const DEFAULT_ZOOM = 10;
     const map = useRef(null);
+    const [lat = DEFAULT_LAT, setLat] = useQueryParam('lat', NumberParam);
+    const [lng = DEFAULT_LNG, setLng] = useQueryParam('lng', NumberParam);
     const [zoom = DEFAULT_ZOOM, setZoom] = useQueryParam('zoom', NumberParam);
 
     return (
       <GoogleMap
-        center={center}
+        center={new window.google.maps.LatLng(lat, lng)}
         defaultZoom={zoom}
+        onCenterChanged={() => {
+          const center = map.current.getCenter();
+          setLat(center.lat());
+          setLng(center.lng());
+        }}
         onZoomChanged={() => setZoom(map.current.getZoom())}
         options={{
           fullscreenControl: false,
