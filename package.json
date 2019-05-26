@@ -16,14 +16,11 @@
     "build": "react-scripts build",
     "deploy": "yarn build && surge build https://rasp.surge.sh",
     "eject": "react-scripts eject",
-    "precommit": "precise-commits",
     "prettier": "prettier --write src/**",
     "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom"
   },
   "devDependencies": {
-    "husky": "^2.3.0",
-    "precise-commits": "^1.0.2",
     "prettier": "^1.17.1"
   },
   "browserslist": {
