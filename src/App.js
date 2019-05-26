@@ -11,7 +11,6 @@ import { decDay, decTime, incDay, incTime, today } from './time';
 import './App.css';
 
 const DEFAULT_CENTER = { lat: 52.18572, lng: -0.14591 };
-const DEFAULT_ZOOM = 10;
 
 const LAYER_NAME = {
   blwind: 'BL wind',
@@ -154,13 +153,7 @@ class App extends Component {
           </Flexbox>
 
           <Flexbox flexGrow={1} width="100%">
-            <Map
-              center={center}
-              day={day}
-              defaultZoom={DEFAULT_ZOOM}
-              layer={layer}
-              time={time}
-            />
+            <Map center={center} day={day} layer={layer} time={time} />
           </Flexbox>
 
           <Flexbox

@@ -9,7 +9,8 @@
     "react-dom": "^16.8.6",
     "react-google-maps": "^9.4.5",
     "react-icons": "^3.7.0",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "use-query-params": "^0.3.2"
   },
   "scripts": {
     "build": "react-scripts build",

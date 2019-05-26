@@ -1,5 +1,11 @@
-import React, { Component } from 'react';
-import { withGoogleMap, GoogleMap, OverlayView } from 'react-google-maps';
+import React, { Component, useRef } from 'react';
+import {
+  GoogleMap,
+  OverlayView,
+  withGoogleMap,
+  withScriptjs
+} from 'react-google-maps';
+import { useQueryParam, NumberParam } from 'use-query-params';
 
 import { HOURS, timeNumberToTime } from './time';
 
@@ -49,9 +55,7 @@ const DAY_OFFSET_TO_DIR = [
 function raspUrl(layer, day, time) {
   const dir = DAY_OFFSET_TO_DIR[day];
   const timeString = timeNumberToTime(time);
-  // TODO: what is this 'lst', or 'd2'? Anything to worry about with DST?
   return `http://rasp.mrsap.org/${dir}/FCST/${layer}.curr.${timeString}lst.d2.body.png`;
-  //return `https://rasp-image-proxy-wwrxjzolka.now.sh/${dir}/FCST/wstar.curr.${time}lst.d2.body.png`
 }
 
 class OverlayImage extends Component {
@@ -95,28 +99,35 @@ class OverlayImage extends Component {
   }
 }
 
-// TODO: prop types for day and time
-const OverlayViewExampleGoogleMap = withGoogleMap(
-  ({ center, day, defaultZoom, layer, time }) => (
-    <GoogleMap
-      center={center}
-      defaultZoom={defaultZoom}
-      options={{
-        fullscreenControl: false,
-        mapTypeControl: false,
-        mapTypeId: 'terrain',
-        streetViewControl: false,
-        zoomControl: true
-      }}
-    >
-      <OverlayView
-        bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[day]]}
-        mapPaneName={OverlayView.OVERLAY_LAYER}
+const RaspMap = withScriptjs(
+  withGoogleMap(({ center, day, layer, time }) => {
+    const DEFAULT_ZOOM = 10;
+    const map = useRef(null);
+    const [zoom = DEFAULT_ZOOM, setZoom] = useQueryParam('zoom', NumberParam);
+
+    return (
+      <GoogleMap
+        center={center}
+        defaultZoom={zoom}
+        onZoomChanged={() => setZoom(map.current.getZoom())}
+        options={{
+          fullscreenControl: false,
+          mapTypeControl: false,
+          mapTypeId: 'terrain',
+          streetViewControl: false,
+          zoomControl: true
+        }}
+        ref={map}
       >
-        <OverlayImage day={day} layer={layer} time={time} />
-      </OverlayView>
-    </GoogleMap>
-  )
+        <OverlayView
+          bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[day]]}
+          mapPaneName={OverlayView.OVERLAY_LAYER}
+        >
+          <OverlayImage day={day} layer={layer} time={time} />
+        </OverlayView>
+      </GoogleMap>
+    );
+  })
 );
 
 const styles = {
@@ -130,9 +141,12 @@ const styles = {
   }
 };
 
+// TODO: would be nice pull out the API key…
 const Map = props => (
-  <OverlayViewExampleGoogleMap
+  <RaspMap
+    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1pc2KO5U0drWWHDygRYWygS_GQ8F4uwg"
     containerElement={<div style={styles.container} />}
+    loadingElement={<div style={{ height: `100%` }} />}
     mapElement={<div style={styles.map} />}
     {...props}
   />
