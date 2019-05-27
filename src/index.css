@@ -3,3 +3,11 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.bm-item:focus {
+  outline: none;
+}
+
+.bm-item.active {
+  filter: brightness(50%);
+}

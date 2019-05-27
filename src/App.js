@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import cn from "classnames";
 import Flexbox from "flexbox-react";
 import { slide as Menu } from "react-burger-menu";
 import { FiMenu } from "react-icons/fi";
@@ -20,30 +21,37 @@ const LAYER_NAME = {
 const DEFAULT_LAYER = "stars";
 
 const styles = {
-  bmBurgerButton: {
-    position: "fixed",
-    width: "30px",
-    height: "30px",
-    left: "8px",
-    top: "8px"
+  menu: {
+    bmBurgerButton: {
+      position: "fixed",
+      width: "30px",
+      height: "30px",
+      left: "8px",
+      top: "8px"
+    },
+    bmBurgerBars: {
+      background: "#373a47"
+    },
+    bmMenu: {
+      background: "#FFFFFF",
+      fontSize: "1.15em"
+    },
+    bmMorphShape: {
+      fill: "#373a47"
+    },
+    bmItemList: {
+      color: "#b8b7ad",
+      height: "default",
+      margin: "0.8em"
+    },
+    bmOverlay: {
+      background: "rgba(0, 0, 0, 0.3)"
+    }
   },
-  bmBurgerBars: {
-    background: "#373a47"
-  },
-  bmMenu: {
-    background: "#FFFFFF",
-    fontSize: "1.15em"
-  },
-  bmMorphShape: {
-    fill: "#373a47"
-  },
-  bmItemList: {
-    color: "#b8b7ad",
-    height: "default",
-    margin: "0.8em"
-  },
-  bmOverlay: {
-    background: "rgba(0, 0, 0, 0.3)"
+  menuItem: {
+    ":focus": { outline: "none" },
+    cursor: "pointer",
+    margin: 10
   }
 };
 
@@ -117,29 +125,33 @@ class App extends Component {
           customBurgerIcon={<FiMenu />}
           isOpen={isMenuOpen}
           onStateChange={this.onMenuStateChange}
-          styles={styles}
+          styles={styles.menu}
           width={200}
         >
           <span
-            style={{ cursor: "pointer", margin: 10 }}
+            className={cn({ active: layer === "blwind" })}
+            style={styles.menuItem}
             onClick={this.onSelectBlwind}
           >
             {LAYER_NAME.blwind}
           </span>
           <span
-            style={{ cursor: "pointer", margin: 10 }}
+            className={cn({ active: layer === "stars" })}
+            style={styles.menuItem}
             onClick={this.onSelectStars}
           >
             {LAYER_NAME.stars}
           </span>
           <span
-            style={{ cursor: "pointer", margin: 10 }}
+            className={cn({ active: layer === "wstar" })}
+            style={styles.menuItem}
             onClick={this.onSelectWstar}
           >
             {LAYER_NAME.wstar}
           </span>
           <span
-            style={{ cursor: "pointer", margin: 10 }}
+            className={cn({ active: layer === "zsfclclmask" })}
+            style={styles.menuItem}
             onClick={this.onSelectZsfclclmask}
           >
             {LAYER_NAME.zsfclclmask}
