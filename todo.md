@@ -1,6 +1,13 @@
 RASP To Do List
 ===
 
+Urgent:
+
+- iPhone PWA is broken
+- http vs https
+- get rid of flexbox-react - this should address some of the componentWillMount errors
+- move away from react-google-maps since it doesn't seem to be maintained
+
 In no particular order…
 
 - store centre point in query params

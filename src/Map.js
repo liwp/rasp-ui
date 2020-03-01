@@ -7,7 +7,7 @@ import {
 } from "react-google-maps";
 import { useQueryParam, NumberParam } from "use-query-params";
 
-import { HOURS, timeNumberToTime } from "./time";
+import { HOURS } from "./time";
 
 const RESOLUTION_TO_BOUNDS = {
   2: {
@@ -57,7 +57,7 @@ const DAY_OFFSET_TO_DIR = [
 
 function raspUrl(layer, day, time) {
   const dir = DAY_OFFSET_TO_DIR[day];
-  const timeString = timeNumberToTime(time);
+  const timeString = HOURS[time];
   return `http://rasp.mrsap.org/${dir}/FCST/${layer}.curr.${timeString}lst.d2.body.png`;
 }
 

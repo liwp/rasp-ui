@@ -1,21 +1,62 @@
 import {
   HOURS,
   dayNumberToName,
-  timeNumberToTime,
   decDay,
   decTime,
+  generateHours,
   incDay,
   incTime,
+  timeNumberToTime,
   today
 } from "./time";
 
 beforeAll(() => {
   // Fri Nov 18 2016 00:00:00 GMT+0000 (GMT)
   jest.spyOn(Date, "now").mockReturnValue(1479427200000);
+  // 1 July 2020 01:23:45 UTC+01:00
+  //jest.spyOn(Date, "now").mockReturnValue(1593563025000);
 });
 
 afterAll(() => {
   Date.now.mockRestore();
+});
+
+test("HOURS during GMT", () => {
+  const actual = generateHours(0);
+  expect(actual).toEqual([
+    "0700",
+    "0800",
+    "0900",
+    "1000",
+    "1100",
+    "1200",
+    "1300",
+    "1400",
+    "1500",
+    "1600",
+    "1700",
+    "1800",
+    "1900"
+  ]);
+});
+
+test("HOURS during BST", () => {
+  const actual = generateHours(1);
+  expect(actual).toEqual([
+    "0800",
+    "0900",
+    "1000",
+    "1100",
+    "1200",
+    "1300",
+    "1400",
+    "1500",
+    "1600",
+    "1700",
+    "1800",
+    "1900",
+    "2000"
+  ]);
 });
 
 test("dayNumberToName outputs correct format", () => {
@@ -54,9 +95,9 @@ test("decTime decrements time", () => {
 });
 
 test("decTime rolls over to the previous day", () => {
-  const { day, time } = decTime({ day: 0, time: HOURS.indexOf("0800") });
+  const { day, time } = decTime({ day: 0, time: 0 });
   expect(day).toEqual(6);
-  expect(time).toEqual(HOURS.indexOf("1900"));
+  expect(time).toEqual(HOURS.length - 1);
 });
 
 test("incTime increments time", () => {
@@ -66,9 +107,9 @@ test("incTime increments time", () => {
 });
 
 test("incTime rolls over to the next day", () => {
-  const { day, time } = incTime({ day: 6, time: HOURS.indexOf("1900") });
+  const { day, time } = incTime({ day: 6, time: HOURS.length - 1 });
   expect(day).toEqual(0);
-  expect(time).toEqual(HOURS.indexOf("0800"));
+  expect(time).toEqual(0);
 });
 
 test("today returns today's day and time", () => {
@@ -85,11 +126,11 @@ test("today returns noon for times before noon", () => {
   expect(time).toEqual(HOURS.indexOf("1200"));
 });
 
-test("today returns 8AM for times before 8AM", () => {
-  Date.now.mockReturnValue(new Date(2018, 1, 1, 7).getTime());
+test("today returns first hour for earlier times", () => {
+  Date.now.mockReturnValue(new Date(2018, 1, 1, 6).getTime());
   const { day, time } = today();
   expect(day).toEqual(0);
-  expect(time).toEqual(HOURS.indexOf("0800"));
+  expect(time).toEqual(0);
 });
 
 test("today returns tomorrow noon for times after 7PM", () => {
