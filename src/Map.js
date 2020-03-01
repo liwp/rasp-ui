@@ -28,11 +28,14 @@ const RESOLUTION_TO_BOUNDS = {
   }
 };
 
+// TODO: this is pretty bad: we have no idea which elements should be
+// (un)commented! Can we do some sort of map version of this?
+
 const DAY_OFFSET_TO_RESOLUTION = [
-  // 2, // 0 - Today    - 2Km
-  4, // 1 - Today    - UK4
-  // 2, // 2 - Tomorrow - UK2
-  4, // 3 - Tomorrow - UK4
+  2, // 0 - Today    - 2Km
+  // 4, // 1 - Today    - UK4
+  2, // 2 - Tomorrow - UK2
+  // 4, // 3 - Tomorrow - UK4
   4, // 4 - +2 days  - UK4
   12, // 5 - +3 days  - UK12
   12, // 6 - +4 days  - UK12
@@ -41,10 +44,10 @@ const DAY_OFFSET_TO_RESOLUTION = [
 ];
 
 const DAY_OFFSET_TO_DIR = [
-  //'UK2',
-  "UK4",
-  //'UK2+1',
-  "UK4+1",
+  "UK2",
+  //"UK4",
+  'UK2+1',
+  //"UK4+1",
   "UK4+2",
   "UK12+3",
   "UK12+4",
