@@ -1,5 +1,9 @@
-export function generateHours(offsetInHours) {
-  const start = 7 + offsetInHours;
+// TODO: we should stick this all in a class that we can instantiate with the
+// current time...
+
+export function generateHours(dst) {
+  const start = 7 + (dst ? 0 : -1);
+  console.log({ start, dst });
   const ret = [];
   for (let i = 0; i < 13; i++) {
     ret.push(("0" + (start + i)).slice(-2) + "00");
@@ -10,15 +14,18 @@ export function generateHours(offsetInHours) {
 
 // RASP seems to think in UTC, but the file names are in GMT/BST. So during BST
 // we're supposed to request 0800-1900, and during GMT 0700-1800.
-function offsetToUkInHours() {
-  const now = new Date(Date.now());
-  const nowInUk = new Date(
-    now.toLocaleString("en-GB", { timeZone: "Europe/London" })
+
+export function isDst() {
+  const date = new Date(Date.now());
+  const jan = new Date(date.getFullYear(), 0, 1);
+  const jul = new Date(date.getFullYear(), 6, 1);
+  return (
+    date.getTimezoneOffset() <
+    Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset())
   );
-  return nowInUk.getTimezoneOffset() / 60;
 }
 
-export const HOURS = generateHours(offsetToUkInHours());
+export const HOURS = generateHours(isDst());
 
 export function dayNumberToName(day) {
   // This is so we can stub it out in tests

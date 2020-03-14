@@ -6,24 +6,50 @@ import {
   generateHours,
   incDay,
   incTime,
+  isDst,
   timeNumberToTime,
   today
 } from "./time";
 
-beforeAll(() => {
+beforeEach(() => {
   // Fri Nov 18 2016 00:00:00 GMT+0000 (GMT)
   jest.spyOn(Date, "now").mockReturnValue(1479427200000);
-  // 1 July 2020 01:23:45 UTC+01:00
-  //jest.spyOn(Date, "now").mockReturnValue(1593563025000);
 });
 
-afterAll(() => {
+afterEach(() => {
   Date.now.mockRestore();
 });
 
-test("HOURS during GMT", () => {
-  const actual = generateHours(0);
-  expect(actual).toEqual([
+test("isDst in winter", () => {
+  expect(isDst()).toBe(false);
+});
+
+test("isDst in summer", () => {
+  // 1 July 2020 01:23:45 UTC+01:00
+  jest.spyOn(Date, "now").mockReturnValue(1593563025000);
+  expect(isDst()).toBe(true);
+});
+
+test("HOURS during winter", () => {
+  expect(generateHours(false)).toEqual([
+    "0600",
+    "0700",
+    "0800",
+    "0900",
+    "1000",
+    "1100",
+    "1200",
+    "1300",
+    "1400",
+    "1500",
+    "1600",
+    "1700",
+    "1800"
+  ]);
+});
+
+test("HOURS during DST", () => {
+  expect(generateHours(true)).toEqual([
     "0700",
     "0800",
     "0900",
@@ -37,25 +63,6 @@ test("HOURS during GMT", () => {
     "1700",
     "1800",
     "1900"
-  ]);
-});
-
-test("HOURS during BST", () => {
-  const actual = generateHours(1);
-  expect(actual).toEqual([
-    "0800",
-    "0900",
-    "1000",
-    "1100",
-    "1200",
-    "1300",
-    "1400",
-    "1500",
-    "1600",
-    "1700",
-    "1800",
-    "1900",
-    "2000"
   ]);
 });
 
