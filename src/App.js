@@ -6,7 +6,7 @@ import { FiMenu } from "react-icons/fi";
 
 import Footer from "./Footer";
 import Header from "./Header";
-import Map from "./Map";
+import LeafletMap from "./LeafletMap";
 import { decDay, decTime, incDay, incTime, today } from "./time";
 
 import "./App.css";
@@ -163,7 +163,7 @@ class App extends Component {
           </Flexbox>
 
           <Flexbox flexGrow={1} width="100%">
-            <Map day={day} layer={layer} time={time} />
+            <LeafletMap day={day} layer={layer} time={time} />
           </Flexbox>
 
           <Flexbox

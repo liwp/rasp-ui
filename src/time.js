@@ -3,7 +3,6 @@
 
 export function generateHours(dst) {
   const start = 7 + (dst ? 0 : -1);
-  console.log({ start, dst });
   const ret = [];
   for (let i = 0; i < 13; i++) {
     ret.push(("0" + (start + i)).slice(-2) + "00");

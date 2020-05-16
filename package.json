@@ -5,11 +5,13 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "flexbox-react": "^4.4.0",
+    "leaflet": "^1.6.0",
     "react": "^16.13.1",
     "react-burger-menu": "^2.6.13",
     "react-dom": "^16.13.1",
     "react-google-maps": "^9.4.5",
     "react-icons": "^3.10.0",
+    "react-leaflet": "^2.7.0",
     "react-scripts": "3.4.1",
     "use-query-params": "^0.6.0"
   },
