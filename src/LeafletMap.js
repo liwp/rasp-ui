@@ -67,8 +67,7 @@ const ATTRIBUTION =
 const URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 export default function LeafletMap({ day, layer, time }) {
-  // TODO: move these, and layer, outside of the component!
-  // TODO: move overlay image outside?!
+  // TODO: move url outside, move overlay image outside?!
   const [{ lat = DEFAULT_LAT, lng = DEFAULT_LNG }, setCenter] = useQueryParams({
     lat: NumberParam,
     lng: NumberParam
