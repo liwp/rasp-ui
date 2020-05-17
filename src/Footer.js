@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Flexbox from "flexbox-react";
 import {
   FiChevronsLeft as LeftLeft,
   FiChevronsRight as RightRight,
@@ -7,67 +6,47 @@ import {
   FiChevronRight as Right,
   FiChevronUp as Up
 } from "react-icons/fi";
+import styled from "styled-components";
 
-const FooterButton = ({ icon }) => (
-  <Flexbox
-    justifyContent="center"
-    alignItems="center"
-    height="100%"
-    width="100%"
-  >
-    {icon}
-  </Flexbox>
-);
+const Button = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: block;
+  height: 100%;
+  width: 90%;
+`;
+
+const ButtonContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 100%;
+  place-items: center;
+  width: 100%;
+`;
 
 class Footer extends Component {
   render() {
     const { onDayBwd, onDayFwd, onToday, onTimeBwd, onTimeFwd } = this.props;
 
     return (
-      <Flexbox
-        justifyContent="space-around"
-        flexDirection="row"
-        height="100%"
-        width="100%"
-      >
-        <FooterButton
-          icon={
-            <LeftLeft
-              onClick={onDayBwd}
-              size={36}
-              style={{ cursor: "pointer" }}
-            />
-          }
-        />
-        <FooterButton
-          icon={
-            <Left onClick={onTimeBwd} size={36} style={{ cursor: "pointer" }} />
-          }
-        />
-        <FooterButton
-          icon={
-            <Up onClick={onToday} size={36} style={{ cursor: "pointer" }} />
-          }
-        />
-        <FooterButton
-          icon={
-            <Right
-              onClick={onTimeFwd}
-              size={36}
-              style={{ cursor: "pointer" }}
-            />
-          }
-        />
-        <FooterButton
-          icon={
-            <RightRight
-              onClick={onDayFwd}
-              size={36}
-              style={{ cursor: "pointer" }}
-            />
-          }
-        />
-      </Flexbox>
+      <ButtonContainer>
+        <Button onClick={onDayBwd}>
+          <LeftLeft size="42" />
+        </Button>
+        <Button onClick={onTimeBwd}>
+          <Left size="42" />
+        </Button>
+        <Button onClick={onToday}>
+          <Up size="42" />
+        </Button>
+        <Button onClick={onTimeFwd}>
+          <Right size="42" />
+        </Button>
+        <Button onClick={onDayFwd}>
+          <RightRight size="42" />
+        </Button>
+      </ButtonContainer>
     );
   }
 }
