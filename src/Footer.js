@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   FiChevronsLeft as LeftLeft,
   FiChevronsRight as RightRight,
@@ -8,6 +8,7 @@ import {
 } from "react-icons/fi";
 import styled from "styled-components";
 
+// TODO: button-outline: none?
 const Button = styled.button`
   border: none;
   background: none;
@@ -25,30 +26,24 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-class Footer extends Component {
-  render() {
-    const { onDayBwd, onDayFwd, onToday, onTimeBwd, onTimeFwd } = this.props;
-
-    return (
-      <ButtonContainer>
-        <Button onClick={onDayBwd}>
-          <LeftLeft size="42" />
-        </Button>
-        <Button onClick={onTimeBwd}>
-          <Left size="42" />
-        </Button>
-        <Button onClick={onToday}>
-          <Up size="42" />
-        </Button>
-        <Button onClick={onTimeFwd}>
-          <Right size="42" />
-        </Button>
-        <Button onClick={onDayFwd}>
-          <RightRight size="42" />
-        </Button>
-      </ButtonContainer>
-    );
-  }
-}
+const Footer = ({ onDayBwd, onDayFwd, onToday, onTimeBwd, onTimeFwd }) => (
+  <ButtonContainer>
+    <Button onClick={onDayBwd}>
+      <LeftLeft size="42" />
+    </Button>
+    <Button onClick={onTimeBwd}>
+      <Left size="42" />
+    </Button>
+    <Button onClick={onToday}>
+      <Up size="42" />
+    </Button>
+    <Button onClick={onTimeFwd}>
+      <Right size="42" />
+    </Button>
+    <Button onClick={onDayFwd}>
+      <RightRight size="42" />
+    </Button>
+  </ButtonContainer>
+);
 
 export default Footer;

@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import cn from "classnames";
-import Flexbox from "flexbox-react";
 import { slide as Menu } from "react-burger-menu";
 import { FiMenu } from "react-icons/fi";
+import styled from "styled-components";
 
 import Footer from "./Footer";
 import Header from "./Header";
 import LeafletMap from "./LeafletMap";
 import { decDay, decTime, incDay, incTime, today } from "./time";
-
-import "./App.css";
 
 const LAYER_NAME = {
   blwind: "BL wind",
@@ -55,6 +53,45 @@ const styles = {
   }
 };
 
+const TOOLBAR_HEIGHT = '52px'
+
+// TODO: how to fix the mobile issues? Two articles:
+// - https://dev.to/admitkard/mobile-issue-with-100vh-height-100-100vh-3-solutions-3nae
+const AppContainer = styled.div`
+  height: 100vh;
+`;
+
+const MainContainer = styled.div`
+  display: grid;
+  grid-template-rows: ${TOOLBAR_HEIGHT} auto ${TOOLBAR_HEIGHT};
+  height: 100%;
+`;
+
+// TODO: remove the header block and let if 'float' over the map. The tricky bit
+// is how to make sure the text is legible! And where to put the menu button.
+const HeaderContainer = styled.div`
+  display: grid;
+  place-items: center;
+  width: 100%;
+`;
+
+const MapContainer = styled.div`
+  display: grid;
+  height: 100%;
+  width: 100%;
+`;
+
+const FooterContainer = styled.footer`
+  width: 100%;
+`;
+
+// TODO: use one layer callback with an argument
+// TODO: move menu to its own component with a layer change callback
+// TODO: convert to function component
+// TODO: store layer in query param
+// TODO: immutable Time class
+// TODO: add more layers
+// TODO: prefetch images
 class App extends Component {
   constructor(props) {
     super(props);
@@ -120,7 +157,7 @@ class App extends Component {
     const { day, isMenuOpen, layer, time } = this.state;
 
     return (
-      <div className="App">
+      <AppContainer>
         <Menu
           customBurgerIcon={<FiMenu />}
           isOpen={isMenuOpen}
@@ -157,32 +194,27 @@ class App extends Component {
             {LAYER_NAME.zsfclclmask}
           </span>
         </Menu>
-        <Flexbox flexDirection="column" minHeight="100vh" alignItems="center">
-          <Flexbox alignItems="center" element="header" height="45px">
+
+        <MainContainer>
+          <HeaderContainer>
             <Header day={day} layer={LAYER_NAME[layer]} time={time} />
-          </Flexbox>
+          </HeaderContainer>
 
-          <Flexbox flexGrow={1} width="100%">
+          <MapContainer>
             <LeafletMap day={day} layer={layer} time={time} />
-          </Flexbox>
+          </MapContainer>
 
-          <Flexbox
-            alignItems="center"
-            element="footer"
-            height="45px"
-            width="100%"
-          >
+          <FooterContainer>
             <Footer
               onDayBwd={this.onDayBwd}
               onDayFwd={this.onDayFwd}
-              onHome={this.onHome}
               onToday={this.onToday}
               onTimeBwd={this.onTimeBwd}
               onTimeFwd={this.onTimeFwd}
             />
-          </Flexbox>
-        </Flexbox>
-      </div>
+          </FooterContainer>
+        </MainContainer>
+      </AppContainer>
     );
   }
 }

@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
-    "flexbox-react": "^4.4.0",
     "leaflet": "^1.6.0",
     "react": "^16.13.1",
     "react-burger-menu": "^2.6.13",

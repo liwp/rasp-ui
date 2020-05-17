@@ -14,6 +14,8 @@ export function generateHours(dst) {
 // RASP seems to think in UTC, but the file names are in GMT/BST. So during BST
 // we're supposed to request 0800-1900, and during GMT 0700-1800.
 
+// TODO: there is a 0600 image we're not showing ATM!
+
 export function isDst() {
   const date = new Date(Date.now());
   const jan = new Date(date.getFullYear(), 0, 1);

@@ -5,42 +5,12 @@ Urgent:
 
 - iPhone PWA is broken
 - http vs https
-- get rid of flexbox-react - this should address some of the componentWillMount errors
-- move away from react-google-maps since it doesn't seem to be maintained
 
 In no particular order…
 
-- store centre point in query params
-- store zoom level in query params
 - add layers
-- update dependencies
-- introduce multiple overlay options - star rating first
 - go-to UI with BGA turn point DB
 - remove header and place time / loading indicator somewhere else to save space (some animated fade-in/out label?)
-
-# Done
-
-## Map controls
-
-Looks like the GMaps API doesn't allow us to display a Home button. So I think
-we'll just drop this feature. Probably best just to implement the BGA turnpoint
-thingy.
-
-Instead of fixing the `Home` button I just removed it.
-
-- enable zoom controls
-- disable fullscreen control (it removes our toolbar)
-- render the date (or stop cycling from last day to first day)
-- move the current location to a google map button (can we just use the GM UI?)
-- fix current GOTO functionality (req for `transparent.png` fails)
-
-
-## Icons
-
-We're using `react-icons` to access FontAwesome icons. The promise is that we
-end up 'paying' only for the icons that we use.
-
-- use icons
 
 
 ## Image loading
@@ -63,15 +33,6 @@ The URL had already been changed to use the RASP backend rather than my https
 proxy:
 
 - change images to `http://` to avoid using our proxy
-
-
-## Navigation
-
-The time bwd/fwd buttons now rolls backwards/forward to the previous/next day,
-so you can rolls through all images by just clicking on the fwd (or bwd) button.
-
-We also changed the `today` button to navigate to the current hour when it's
-past noon.
 
 
 ## Layout
