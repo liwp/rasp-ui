@@ -80,6 +80,7 @@ export default function LeafletMap({ day, layer, time }) {
       onMoveend={e => setCenter(e.target.getCenter())}
       onZoomend={e => setZoom(e.target.getZoom())}
       zoom={zoom}
+      zoomControl={false}
     >
       <ImageOverlay
         bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[day]]}
