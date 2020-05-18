@@ -11,31 +11,31 @@ const styles = {
       width: "30px",
       height: "30px",
       left: "8px",
-      top: "8px"
+      top: "8px",
     },
     bmBurgerBars: {
-      background: "#373a47"
+      background: "#373a47",
     },
     bmMenu: {
       background: "#FFFFFF",
-      fontSize: "1.15em"
+      fontSize: "1.15em",
     },
     bmMorphShape: {
-      fill: "#373a47"
+      fill: "#373a47",
     },
     bmItemList: {
       color: "#b8b7ad",
       height: "default",
-      margin: "0.8em"
+      margin: "0.8em",
     },
     bmOverlay: {
-      background: "rgba(0, 0, 0, 0.3)"
-    }
+      background: "rgba(0, 0, 0, 0.3)",
+    },
   },
   menuItem: {
     cursor: "pointer",
-    margin: 10
-  }
+    margin: 10,
+  },
 };
 
 const Menu = ({ layer, layers, onSelectLayer }) => {

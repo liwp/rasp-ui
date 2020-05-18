@@ -7,20 +7,20 @@ import { HOURS } from "./time";
 const RESOLUTION_TO_BOUNDS = {
   2: [
     [49.438343, -10.725891100000013],
-    [59.3545303, 2.7919921999999815]
+    [59.3545303, 2.7919921999999815],
   ],
   4: [
     [49.3974648, -10.967224100000067],
-    [59.603405, 2.7442016999999623]
+    [59.603405, 2.7442016999999623],
   ],
   5: [
     [49.4039417, -10.952952800000048],
-    [59.5960889, 2.7322388999999703]
+    [59.5960889, 2.7322388999999703],
   ],
   12: [
     [48.8365898, -11.61364750000007],
-    [59.7539062, 3.264160199999992]
-  ]
+    [59.7539062, 3.264160199999992],
+  ],
 };
 
 // TODO: this is pretty bad: we have no idea which elements should be
@@ -35,7 +35,7 @@ const DAY_OFFSET_TO_RESOLUTION = [
   12, // 5 - +3 days  - UK12
   12, // 6 - +4 days  - UK12
   12, // 7 - +5 days  - UK12
-  12 // 8 - +6 days  - UK12
+  12, // 8 - +6 days  - UK12
 ];
 
 const DAY_OFFSET_TO_DIR = [
@@ -47,7 +47,7 @@ const DAY_OFFSET_TO_DIR = [
   "UK12+3",
   "UK12+4",
   "UK12+5",
-  "UK12+6"
+  "UK12+6",
 ];
 
 function raspUrl(layer, day, time) {
@@ -70,15 +70,15 @@ export default function LeafletMap({ day, layer, time }) {
   // TODO: move url outside, move overlay image outside?!
   const [{ lat = DEFAULT_LAT, lng = DEFAULT_LNG }, setCenter] = useQueryParams({
     lat: NumberParam,
-    lng: NumberParam
+    lng: NumberParam,
   });
   const [zoom = DEFAULT_ZOOM, setZoom] = useQueryParam("zoom", NumberParam);
 
   return (
     <Map
       center={[lat, lng]}
-      onMoveend={e => setCenter(e.target.getCenter())}
-      onZoomend={e => setZoom(e.target.getZoom())}
+      onMoveend={(e) => setCenter(e.target.getCenter())}
+      onZoomend={(e) => setZoom(e.target.getZoom())}
       zoom={zoom}
       zoomControl={false}
     >

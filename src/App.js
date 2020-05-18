@@ -12,7 +12,7 @@ const LAYER_NAME = {
   blwind: "BL wind",
   zsfclclmask: "Cu Cloudbase",
   stars: "Star rating",
-  wstar: "Updraft velocity"
+  wstar: "Updraft velocity",
 };
 
 const DEFAULT_LAYER = "stars";
@@ -67,7 +67,7 @@ const App = () => {
       <Menu
         layer={layer}
         layers={LAYER_NAME}
-        onSelectLayer={layer => {
+        onSelectLayer={(layer) => {
           setQpLayer(layer);
           setLayer(layer);
         }}

@@ -8,7 +8,7 @@ import {
   incTime,
   isDst,
   timeNumberToTime,
-  today
+  today,
 } from "./time";
 
 beforeEach(() => {
@@ -44,7 +44,7 @@ test("HOURS during winter", () => {
     "1500",
     "1600",
     "1700",
-    "1800"
+    "1800",
   ]);
 });
 
@@ -62,7 +62,7 @@ test("HOURS during DST", () => {
     "1600",
     "1700",
     "1800",
-    "1900"
+    "1900",
   ]);
 });
 

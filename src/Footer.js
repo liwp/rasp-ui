@@ -4,7 +4,7 @@ import {
   FiChevronsRight as RightRight,
   FiChevronLeft as Left,
   FiChevronRight as Right,
-  FiChevronUp as Up
+  FiChevronUp as Up,
 } from "react-icons/fi";
 import styled from "styled-components";
 
