@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import styled from "styled-components";
 import { useQueryParam, StringParam } from "use-query-params";
 
@@ -18,10 +18,9 @@ const LAYER_NAME = {
 const DEFAULT_LAYER = "stars";
 const TOOLBAR_HEIGHT = "52px";
 
-// TODO: how to fix the mobile issues? Two articles:
-// - https://dev.to/admitkard/mobile-issue-with-100vh-height-100-100vh-3-solutions-3nae
 const AppContainer = styled.div`
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 `;
 
 const MainContainer = styled.div`
@@ -32,7 +31,7 @@ const MainContainer = styled.div`
 
 // TODO: remove the header block and let if 'float' over the map. The tricky bit
 // is how to make sure the text is legible! And where to put the menu button.
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.header`
   display: grid;
   place-items: center;
   width: 100%;
@@ -53,6 +52,17 @@ const FooterContainer = styled.footer`
 // TODO: add more layers
 // TODO: prefetch images
 const App = () => {
+  // A hack to get a fullscreen element on mobile
+  useLayoutEffect(() => {
+    function updateVh() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    }
+    window.addEventListener("resize", updateVh);
+    updateVh();
+    return () => window.removeEventListener("resize", updateVh);
+  }, []);
+
   // TODO: having to use state and query-param is annoying…
   const [qpLayer = DEFAULT_LAYER, setQpLayer] = useQueryParam(
     "layer",
