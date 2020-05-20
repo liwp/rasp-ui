@@ -1,5 +1,6 @@
 import React from "react";
 import { ImageOverlay, Map, TileLayer } from "react-leaflet";
+import styled from "styled-components";
 import { useQueryParam, useQueryParams, NumberParam } from "use-query-params";
 
 import { HOURS } from "./time";
@@ -66,6 +67,12 @@ const ATTRIBUTION =
   '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
 const URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
+const StyledMap = styled.div`
+  display: grid;
+  height: 100%;
+  width: 100%;
+`;
+
 export default function LeafletMap({ day, layer, time }) {
   // TODO: move url outside, move overlay image outside?!
   const [{ lat = DEFAULT_LAT, lng = DEFAULT_LNG }, setCenter] = useQueryParams({
@@ -75,21 +82,23 @@ export default function LeafletMap({ day, layer, time }) {
   const [zoom = DEFAULT_ZOOM, setZoom] = useQueryParam("zoom", NumberParam);
 
   return (
-    <Map
-      center={[lat, lng]}
-      onMoveend={(e) => setCenter(e.target.getCenter())}
-      onZoomend={(e) => setZoom(e.target.getZoom())}
-      zoom={zoom}
-      zoomControl={false}
-    >
-      <ImageOverlay
-        bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[day]]}
-        opacity="0.5"
-        url={raspUrl(layer, day, time)}
+    <StyledMap>
+      <Map
+        center={[lat, lng]}
+        onMoveend={(e) => setCenter(e.target.getCenter())}
+        onZoomend={(e) => setZoom(e.target.getZoom())}
+        zoom={zoom}
+        zoomControl={false}
       >
-        <TileLayer attribution={ATTRIBUTION} url={URL} />
-      </ImageOverlay>
-    </Map>
+        <ImageOverlay
+          bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[day]]}
+          opacity="0.5"
+          url={raspUrl(layer, day, time)}
+        >
+          <TileLayer attribution={ATTRIBUTION} url={URL} />
+        </ImageOverlay>
+      </Map>
+    </StyledMap>
   );
 }
 

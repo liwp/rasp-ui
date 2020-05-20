@@ -12,13 +12,14 @@ import styled from "styled-components";
 const Button = styled.button`
   border: none;
   background: none;
+  color: ${({ theme }) => theme.primaryLight};
   cursor: pointer;
   display: block;
   height: 100%;
   width: 90%;
 `;
 
-const ButtonContainer = styled.div`
+const StyledFooter = styled.footer`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   height: 100%;
@@ -27,7 +28,7 @@ const ButtonContainer = styled.div`
 `;
 
 const Footer = ({ onDayBwd, onDayFwd, onToday, onTimeBwd, onTimeFwd }) => (
-  <ButtonContainer>
+  <StyledFooter>
     <Button onClick={onDayBwd}>
       <LeftLeft size="42" />
     </Button>
@@ -43,7 +44,7 @@ const Footer = ({ onDayBwd, onDayFwd, onToday, onTimeBwd, onTimeFwd }) => (
     <Button onClick={onDayFwd}>
       <RightRight size="42" />
     </Button>
-  </ButtonContainer>
+  </StyledFooter>
 );
 
 export default Footer;
