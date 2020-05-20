@@ -9,7 +9,7 @@ import LeafletMap from "./LeafletMap";
 import Menu from "./Menu";
 import { useStatefulQueryParam, useVhHack } from "./hooks";
 import theme from "./theme";
-import { decDay, decTime, incDay, incTime, today } from "./time";
+import Time from "./time";
 
 const LAYER_NAME = {
   blwind: "BL wind",
@@ -30,16 +30,25 @@ const StyledApp = styled.div`
 `;
 
 // TODO: use history with query-params? https://github.com/pbeshai/use-query-params/blob/master/examples/no-router/src/history.js
-// TODO: immutable Time class
 // TODO: add more layers
 // TODO: prefetch images
+// TODO: move rasp URL somewhere
+
+// TODO: remove the header block and let if 'float' over the map. The tricky bit
+// is how to make sure the text is legible! And where to put the menu button.
+//
+// TODO: I think the answer is to use a transparent gradient. That'll provide
+// some contrast for the text. The menu button can remain where it is. The
+// downside is that it prevents interaction with the map on that area of the
+// screen.
+
 const App = () => {
   useVhHack();
   const [layer = DEFAULT_LAYER, setLayer] = useStatefulQueryParam(
     "layer",
     StringParam
   );
-  const [{ day, time }, setTime] = useState(today());
+  const [time, setTime] = useState(Time.today());
 
   return (
     <ThemeProvider theme={theme}>
@@ -48,18 +57,12 @@ const App = () => {
       <Menu layer={layer} layers={LAYER_NAME} onLayerChange={setLayer} />
 
       <StyledApp>
-        <Header day={day} layer={LAYER_NAME[layer]} time={time} />
+        <Header layer={LAYER_NAME[layer]} time={time} />
 
-        <LeafletMap day={day} layer={layer} time={time} />
+        <LeafletMap layer={layer} time={time} />
 
         {/* TODO: just one onTimeChange callback, and let the Footer buttons work out which method to call? */}
-        <Footer
-          onDayBwd={() => setTime(decDay)}
-          onDayFwd={() => setTime(incDay)}
-          onToday={() => setTime(today)}
-          onTimeBwd={() => setTime(decTime)}
-          onTimeFwd={() => setTime(incTime)}
-        />
+        <Footer onTimeChange={setTime} time={time} />
       </StyledApp>
     </ThemeProvider>
   );

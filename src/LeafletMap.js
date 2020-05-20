@@ -3,8 +3,6 @@ import { ImageOverlay, Map, TileLayer } from "react-leaflet";
 import styled from "styled-components";
 import { useQueryParam, useQueryParams, NumberParam } from "use-query-params";
 
-import { HOURS } from "./time";
-
 const RESOLUTION_TO_BOUNDS = {
   2: [
     [49.438343, -10.725891100000013],
@@ -29,9 +27,7 @@ const RESOLUTION_TO_BOUNDS = {
 
 const DAY_OFFSET_TO_RESOLUTION = [
   2, // 0 - Today    - 2Km
-  // 4, // 1 - Today    - UK4
   2, // 2 - Tomorrow - UK2
-  // 4, // 3 - Tomorrow - UK4
   4, // 4 - +2 days  - UK4
   12, // 5 - +3 days  - UK12
   12, // 6 - +4 days  - UK12
@@ -41,9 +37,7 @@ const DAY_OFFSET_TO_RESOLUTION = [
 
 const DAY_OFFSET_TO_DIR = [
   "UK2",
-  //"UK4",
   "UK2+1",
-  //"UK4+1",
   "UK4+2",
   "UK12+3",
   "UK12+4",
@@ -51,10 +45,10 @@ const DAY_OFFSET_TO_DIR = [
   "UK12+6",
 ];
 
-function raspUrl(layer, day, time) {
-  const dir = DAY_OFFSET_TO_DIR[day];
-  const timeString = HOURS[time];
-  return `http://rasp.mrsap.org/${dir}/FCST/${layer}.curr.${timeString}lst.d2.body.png`;
+function raspUrl(layer, time) {
+  const dir = DAY_OFFSET_TO_DIR[time.day];
+  const hour = time.hourToString();
+  return `http://rasp.mrsap.org/${dir}/FCST/${layer}.curr.${hour}lst.d2.body.png`;
 }
 
 // TODO: move outside of map and pass in args?
@@ -73,7 +67,7 @@ const StyledMap = styled.div`
   width: 100%;
 `;
 
-export default function LeafletMap({ day, layer, time }) {
+export default function LeafletMap({ layer, time }) {
   // TODO: move url outside, move overlay image outside?!
   const [{ lat = DEFAULT_LAT, lng = DEFAULT_LNG }, setCenter] = useQueryParams({
     lat: NumberParam,
@@ -91,9 +85,9 @@ export default function LeafletMap({ day, layer, time }) {
         zoomControl={false}
       >
         <ImageOverlay
-          bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[day]]}
+          bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[time.day]]}
           opacity="0.5"
-          url={raspUrl(layer, day, time)}
+          url={raspUrl(layer, time)}
         >
           <TileLayer attribution={ATTRIBUTION} url={URL} />
         </ImageOverlay>
@@ -101,9 +95,3 @@ export default function LeafletMap({ day, layer, time }) {
     </StyledMap>
   );
 }
-
-// TODO:
-// - layer query param
-// - image preloading
-// - time class
-// - move rasp URL somewhere

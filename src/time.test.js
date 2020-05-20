@@ -1,33 +1,15 @@
-import {
-  HOURS,
-  dayNumberToName,
-  decDay,
-  decTime,
-  generateHours,
-  incDay,
-  incTime,
-  isDst,
-  timeNumberToTime,
-  today,
-} from "./time";
-
-beforeEach(() => {
-  // Fri Nov 18 2016 00:00:00 GMT+0000 (GMT)
-  jest.spyOn(Date, "now").mockReturnValue(1479427200000);
-});
-
-afterEach(() => {
-  Date.now.mockRestore();
-});
+import Time, { HOURS, generateHours, isDst } from "./time";
 
 test("isDst in winter", () => {
-  expect(isDst()).toBe(false);
+  // Fri Nov 18 2016 00:00:00 GMT+0000 (GMT)
+  const now = new Date(2016, 10, 18, 14);
+  expect(isDst(now)).toBe(false);
 });
 
 test("isDst in summer", () => {
   // 1 July 2020 01:23:45 UTC+01:00
-  jest.spyOn(Date, "now").mockReturnValue(1593563025000);
-  expect(isDst()).toBe(true);
+  const now = new Date(2020, 6, 1, 1, 23, 45);
+  expect(isDst(now)).toBe(true);
 });
 
 test("HOURS during winter", () => {
@@ -66,83 +48,83 @@ test("HOURS during DST", () => {
   ]);
 });
 
-test("dayNumberToName outputs correct format", () => {
-  const s = dayNumberToName(3);
-  expect(s).toEqual("Mon, Nov 21");
+test("dayToString outputs correct format", () => {
+  const time = new Time(3, 0);
+  const now = new Date(2018, 1, 1, 14);
+  const s = time.dayToString(now);
+  expect(s).toEqual("Sun, Feb 4");
+});
+
+test("hourToString outputs correct format", () => {
+  const time = new Time(3, HOURS.indexOf("0900"));
+  const s = time.hourToString();
+  expect(s).toEqual("0900");
 });
 
 test("decDay decrements day", () => {
-  const { day, time } = decDay({ day: 2, time: HOURS.indexOf("1700") });
-  expect(day).toEqual(1);
-  expect(time).toEqual(HOURS.indexOf("1200"));
+  const time = new Time(2, HOURS.indexOf("1700"));
+  const newTime = time.decDay();
+  expect(newTime).toEqual(new Time(1, HOURS.indexOf("1200")));
 });
 
 test("decDay rolls over to last day", () => {
-  const { day, time } = decDay({ day: 0, time: HOURS.indexOf("1700") });
-  expect(day).toEqual(6);
-  expect(time).toEqual(HOURS.indexOf("1200"));
+  const time = new Time(0, HOURS.indexOf("1700"));
+  const newTime = time.decDay();
+  expect(newTime).toEqual(new Time(6, HOURS.indexOf("1200")));
 });
 
 test("incDay increments day", () => {
-  const { day, time } = incDay({ day: 2, time: HOURS.indexOf("1700") });
-  expect(day).toEqual(3);
-  expect(time).toEqual(HOURS.indexOf("1200"));
+  const time = new Time(2, HOURS.indexOf("1700"));
+  const newTime = time.incDay();
+  expect(newTime).toEqual(new Time(3, HOURS.indexOf("1200")));
 });
 
 test("incDay rolls over to first day", () => {
-  const { day, time } = incDay({ day: 6, time: HOURS.indexOf("1700") });
-  expect(day).toEqual(0);
-  expect(time).toEqual(HOURS.indexOf("1200"));
+  const time = new Time(6, HOURS.indexOf("1700"));
+  const newTime = time.incDay();
+  expect(newTime).toEqual(new Time(0, HOURS.indexOf("1200")));
 });
 
-test("decTime decrements time", () => {
-  const { day, time } = decTime({ day: 2, time: HOURS.indexOf("1700") });
-  expect(day).toEqual(2);
-  expect(time).toEqual(HOURS.indexOf("1600"));
+test("decHour decrements hour", () => {
+  const time = new Time(2, HOURS.indexOf("1700"));
+  const newTime = time.decHour();
+  expect(newTime).toEqual(new Time(2, HOURS.indexOf("1600")));
 });
 
-test("decTime rolls over to the previous day", () => {
-  const { day, time } = decTime({ day: 0, time: 0 });
-  expect(day).toEqual(6);
-  expect(time).toEqual(HOURS.length - 1);
+test("decHour rolls over to the previous day", () => {
+  const time = new Time(0, 0);
+  const newTime = time.decHour();
+  expect(newTime).toEqual(new Time(6, HOURS.length - 1));
 });
 
-test("incTime increments time", () => {
-  const { day, time } = incTime({ day: 2, time: HOURS.indexOf("1700") });
-  expect(day).toEqual(2);
-  expect(time).toEqual(HOURS.indexOf("1800"));
+test("incHour increments hour", () => {
+  const time = new Time(2, HOURS.indexOf("1700"));
+  const newTime = time.incHour();
+  expect(newTime).toEqual(new Time(2, HOURS.indexOf("1800")));
 });
 
-test("incTime rolls over to the next day", () => {
-  const { day, time } = incTime({ day: 6, time: HOURS.length - 1 });
-  expect(day).toEqual(0);
-  expect(time).toEqual(0);
+test("incHour rolls over to the next day", () => {
+  const time = new Time(6, HOURS.length - 1);
+  const newTime = time.incHour();
+  expect(newTime).toEqual(new Time(0, 0));
 });
 
-test("today returns today's day and time", () => {
-  Date.now.mockReturnValue(new Date(2018, 1, 1, 14).getTime());
-  const { day, time } = today();
-  expect(day).toEqual(0);
-  expect(time).toEqual(HOURS.indexOf("1400"));
+test("today returns today's day and hour", () => {
+  const time = Time.today(new Date(2018, 1, 1, 14));
+  expect(time).toEqual(new Time(0, HOURS.indexOf("1400")));
 });
 
-test("today returns noon for times before noon", () => {
-  Date.now.mockReturnValue(new Date(2018, 1, 1, 11).getTime());
-  const { day, time } = today();
-  expect(day).toEqual(0);
-  expect(time).toEqual(HOURS.indexOf("1200"));
+test("today returns noon for hours before noon", () => {
+  const time = Time.today(new Date(2018, 1, 1, 11));
+  expect(time).toEqual(new Time(0, HOURS.indexOf("1200")));
 });
 
-test("today returns first hour for earlier times", () => {
-  Date.now.mockReturnValue(new Date(2018, 1, 1, 6).getTime());
-  const { day, time } = today();
-  expect(day).toEqual(0);
-  expect(time).toEqual(0);
+test("today returns first hour for earlier hours", () => {
+  const time = Time.today(new Date(2018, 1, 1, 6));
+  expect(time).toEqual(new Time(0, 0));
 });
 
-test("today returns tomorrow noon for times after 7PM", () => {
-  Date.now.mockReturnValue(new Date(2018, 1, 1, 20).getTime());
-  const { day, time } = today();
-  expect(day).toEqual(1);
-  expect(time).toEqual(HOURS.indexOf("1200"));
+test("today returns tomorrow noon for hours after 7PM", () => {
+  const time = Time.today(new Date(2018, 1, 1, 20));
+  expect(time).toEqual(new Time(1, HOURS.indexOf("1200")));
 });

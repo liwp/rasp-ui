@@ -1,6 +1,3 @@
-// TODO: we should stick this all in a class that we can instantiate with the
-// current time...
-
 export function generateHours(dst) {
   const start = 7 + (dst ? 0 : -1);
   const ret = [];
@@ -14,74 +11,73 @@ export function generateHours(dst) {
 // RASP seems to think in UTC, but the file names are in GMT/BST. So during BST
 // we're supposed to request 0800-1900, and during GMT 0700-1800.
 
-// TODO: there is a 0600 image we're not showing ATM!
-
-export function isDst() {
-  const date = new Date(Date.now());
-  const jan = new Date(date.getFullYear(), 0, 1);
-  const jul = new Date(date.getFullYear(), 6, 1);
+export function isDst(now = new Date()) {
+  const jan = new Date(now.getFullYear(), 0, 1);
+  const jul = new Date(now.getFullYear(), 6, 1);
   return (
-    date.getTimezoneOffset() <
+    now.getTimezoneOffset() <
     Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset())
   );
 }
 
 export const HOURS = generateHours(isDst());
 
-export function dayNumberToName(day) {
-  // This is so we can stub it out in tests
-  const d = new Date(Date.now());
-  d.setDate(d.getDate() + day);
-  return d.toLocaleDateString("en-GB", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  });
-}
-
-export function timeNumberToTime(time) {
-  return HOURS[time];
-}
-
-export function decDay({ day }) {
-  day = (day + 6) % 7;
-  return { day, time: HOURS.indexOf("1200") };
-}
-
-export function decTime({ day, time }) {
-  time--;
-  if (time < 0) {
-    day = (day + 6) % 7;
+export default class Time {
+  constructor(day, hour = HOURS.indexOf("1200")) {
+    this.day = day;
+    this.hour = (hour + HOURS.length) % HOURS.length;
   }
-  time = (time + HOURS.length) % HOURS.length;
-  return { day, time };
-}
 
-export function incTime({ day, time }) {
-  time++;
-  if (time >= HOURS.length) {
-    day = (day + 1) % 7;
+  static today(now = new Date()) {
+    const hour = now.getHours();
+    if (hour < 8) {
+      return new Time(0, 0);
+    }
+    if (hour <= 12) {
+      return new Time(0, HOURS.indexOf("1200"));
+    }
+    if (hour > 19) {
+      return new Time(1, HOURS.indexOf("1200"));
+    }
+    return new Time(0, HOURS.indexOf(hour + "00"));
   }
-  time = time % HOURS.length;
-  return { day, time };
-}
 
-export function incDay({ day }) {
-  day = (day + 1) % 7;
-  return { day, time: HOURS.indexOf("1200") };
-}
+  decDay() {
+    return new Time((this.day + 6) % 7);
+  }
 
-export function today() {
-  const d = new Date(Date.now());
-  const hour = d.getHours();
-  if (hour < 8) {
-    return { day: 0, time: 0 };
+  incDay() {
+    return new Time((this.day + 1) % 7);
   }
-  if (hour <= 12) {
-    return { day: 0, time: HOURS.indexOf("1200") };
+
+  decHour() {
+    let hour = this.hour - 1;
+    let day = this.day;
+    if (hour < 0) {
+      day = (this.day + 6) % 7;
+    }
+    return new Time(day, hour);
   }
-  if (hour > 19) {
-    return { day: 1, time: HOURS.indexOf("1200") };
+
+  incHour() {
+    let hour = this.hour + 1;
+    let day = this.day;
+    if (hour >= HOURS.length) {
+      day = (day + 1) % 7;
+    }
+    return new Time(day, hour);
   }
-  return { day: 0, time: HOURS.indexOf(hour + "00") };
+
+  dayToString(now = new Date()) {
+    now.setDate(now.getDate() + this.day);
+    return now.toLocaleDateString("en-GB", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+  }
+
+  hourToString() {
+    return HOURS[this.hour];
+  }
 }

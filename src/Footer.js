@@ -8,14 +8,16 @@ import {
 } from "react-icons/fi";
 import styled from "styled-components";
 
-// TODO: button-outline: none?
+import Time from "./time";
+
 const Button = styled.button`
-  border: none;
   background: none;
+  border: none;
   color: ${({ theme }) => theme.primaryLight};
   cursor: pointer;
   display: block;
   height: 100%;
+  outline: none;
   width: 90%;
 `;
 
@@ -27,21 +29,21 @@ const StyledFooter = styled.footer`
   width: 100%;
 `;
 
-const Footer = ({ onDayBwd, onDayFwd, onToday, onTimeBwd, onTimeFwd }) => (
+const Footer = ({ onTimeChange, time }) => (
   <StyledFooter>
-    <Button onClick={onDayBwd}>
+    <Button onClick={() => onTimeChange(time.decDay())}>
       <LeftLeft size="42" />
     </Button>
-    <Button onClick={onTimeBwd}>
+    <Button onClick={() => onTimeChange(time.decHour())}>
       <Left size="42" />
     </Button>
-    <Button onClick={onToday}>
+    <Button onClick={() => onTimeChange(Time.today())}>
       <Up size="42" />
     </Button>
-    <Button onClick={onTimeFwd}>
+    <Button onClick={() => onTimeChange(time.incHour())}>
       <Right size="42" />
     </Button>
-    <Button onClick={onDayFwd}>
+    <Button onClick={() => onTimeChange(time.incDay())}>
       <RightRight size="42" />
     </Button>
   </StyledFooter>
