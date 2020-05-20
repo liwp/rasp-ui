@@ -3,60 +3,10 @@ import { ImageOverlay, Map, TileLayer } from "react-leaflet";
 import styled from "styled-components";
 import { useQueryParam, useQueryParams, NumberParam } from "use-query-params";
 
-const RESOLUTION_TO_BOUNDS = {
-  2: [
-    [49.438343, -10.725891100000013],
-    [59.3545303, 2.7919921999999815],
-  ],
-  4: [
-    [49.3974648, -10.967224100000067],
-    [59.603405, 2.7442016999999623],
-  ],
-  5: [
-    [49.4039417, -10.952952800000048],
-    [59.5960889, 2.7322388999999703],
-  ],
-  12: [
-    [48.8365898, -11.61364750000007],
-    [59.7539062, 3.264160199999992],
-  ],
-};
-
-// TODO: this is pretty bad: we have no idea which elements should be
-// (un)commented! Can we do some sort of map version of this?
-
-const DAY_OFFSET_TO_RESOLUTION = [
-  2, // 0 - Today    - 2Km
-  2, // 2 - Tomorrow - UK2
-  4, // 4 - +2 days  - UK4
-  12, // 5 - +3 days  - UK12
-  12, // 6 - +4 days  - UK12
-  12, // 7 - +5 days  - UK12
-  12, // 8 - +6 days  - UK12
-];
-
-const DAY_OFFSET_TO_DIR = [
-  "UK2",
-  "UK2+1",
-  "UK4+2",
-  "UK12+3",
-  "UK12+4",
-  "UK12+5",
-  "UK12+6",
-];
-
-function raspUrl(layer, time) {
-  const dir = DAY_OFFSET_TO_DIR[time.day];
-  const hour = time.hourToString();
-  return `http://rasp.mrsap.org/${dir}/FCST/${layer}.curr.${hour}lst.d2.body.png`;
-}
-
-// TODO: move outside of map and pass in args?
-const DEFAULT_ZOOM = 10;
+const DEFAULT_ZOOM = 8;
 const DEFAULT_LAT = 52.18572;
 const DEFAULT_LNG = -0.14591;
 
-// TODO: props?
 const ATTRIBUTION =
   '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
 const URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -67,8 +17,7 @@ const StyledMap = styled.div`
   width: 100%;
 `;
 
-export default function LeafletMap({ layer, time }) {
-  // TODO: move url outside, move overlay image outside?!
+export default function LeafletMap({ bounds, url }) {
   const [{ lat = DEFAULT_LAT, lng = DEFAULT_LNG }, setCenter] = useQueryParams({
     lat: NumberParam,
     lng: NumberParam,
@@ -84,11 +33,7 @@ export default function LeafletMap({ layer, time }) {
         zoom={zoom}
         zoomControl={false}
       >
-        <ImageOverlay
-          bounds={RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[time.day]]}
-          opacity="0.5"
-          url={raspUrl(layer, time)}
-        >
+        <ImageOverlay bounds={bounds} opacity="0.5" url={url}>
           <TileLayer attribution={ATTRIBUTION} url={URL} />
         </ImageOverlay>
       </Map>

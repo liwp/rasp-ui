@@ -8,6 +8,7 @@ import Header from "./Header";
 import LeafletMap from "./LeafletMap";
 import Menu from "./Menu";
 import { useStatefulQueryParam, useVhHack } from "./hooks";
+import { raspBounds, raspUrl } from "./rasp";
 import theme from "./theme";
 import Time from "./time";
 
@@ -32,7 +33,6 @@ const StyledApp = styled.div`
 // TODO: use history with query-params? https://github.com/pbeshai/use-query-params/blob/master/examples/no-router/src/history.js
 // TODO: add more layers
 // TODO: prefetch images
-// TODO: move rasp URL somewhere
 
 // TODO: remove the header block and let if 'float' over the map. The tricky bit
 // is how to make sure the text is legible! And where to put the menu button.
@@ -59,7 +59,7 @@ const App = () => {
       <StyledApp>
         <Header layer={LAYER_NAME[layer]} time={time} />
 
-        <LeafletMap layer={layer} time={time} />
+        <LeafletMap bounds={raspBounds(time)} url={raspUrl(layer, time)} />
 
         {/* TODO: just one onTimeChange callback, and let the Footer buttons work out which method to call? */}
         <Footer onTimeChange={setTime} time={time} />
