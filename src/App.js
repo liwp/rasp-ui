@@ -22,25 +22,14 @@ const LAYER_NAME = {
 const DEFAULT_LAYER = "stars";
 
 const StyledApp = styled.div`
-  display: grid;
-  grid-template-rows: ${({ theme }) => theme.toolbarHeight} auto ${({
-      theme,
-    }) => theme.toolbarHeight};
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
 `;
-
 // TODO: use history with query-params? https://github.com/pbeshai/use-query-params/blob/master/examples/no-router/src/history.js
 // TODO: add more layers
 // TODO: prefetch images
-
-// TODO: remove the header block and let if 'float' over the map. The tricky bit
-// is how to make sure the text is legible! And where to put the menu button.
-//
-// TODO: I think the answer is to use a transparent gradient. That'll provide
-// some contrast for the text. The menu button can remain where it is. The
-// downside is that it prevents interaction with the map on that area of the
-// screen.
 
 const App = () => {
   useVhHack();

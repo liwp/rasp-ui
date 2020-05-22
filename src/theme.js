@@ -3,7 +3,7 @@ const theme = {
   primaryLight: "#EFFFFA",
   primaryHover: "#343078",
   mobile: "576px",
-  toolbarHeight: "52px",
+  toolbarHeight: "4rem",
 };
 
 export default theme;

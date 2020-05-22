@@ -24,7 +24,7 @@ const Button = styled.button`
 const StyledFooter = styled.footer`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  height: 100%;
+  height: ${({ theme }) => theme.toolbarHeight};
   place-items: center;
   width: 100%;
 `;
