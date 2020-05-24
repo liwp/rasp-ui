@@ -13,10 +13,12 @@ import theme from "./theme";
 import Time, { DAYS } from "./time";
 
 const LAYER_NAME = {
-  blwind: "BL wind",
   zsfclclmask: "Cu Cloudbase",
+  rain1: "Rain",
   stars: "Star rating",
   wstar: "Updraft velocity",
+  sfcwind: "Wind - 10m",
+  blwind: "Wind - BL",
 };
 
 const DEFAULT_LAYER = "stars";
