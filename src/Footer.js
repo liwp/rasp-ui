@@ -27,6 +27,7 @@ const StyledFooter = styled.footer`
   height: ${({ theme }) => theme.toolbarHeight};
   place-items: center;
   width: 100%;
+  z-index: 500;
 `;
 
 const Footer = ({ onTimeChange, time }) => (

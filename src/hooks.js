@@ -1,6 +1,20 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useQueryParam } from "use-query-params";
 
+export const useIsImageLoading = (url, delay = 0) => {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(true), delay);
+    const image = new Image();
+    image.src = url;
+    image.onload = () => {
+      clearTimeout(timer);
+      setIsLoading(false);
+    };
+  }, [url, delay]);
+  return isLoading;
+};
+
 export const useOnClickOutside = (handler) => {
   const ref = useRef();
 

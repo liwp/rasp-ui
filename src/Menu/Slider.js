@@ -1,8 +1,36 @@
 import React from "react";
-import cn from "classnames";
 import styled from "styled-components";
 
-export const StyledMenu = styled.nav`
+const SliderItem = styled.span`
+  color: ${({ theme }) => theme.primaryDark};
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 0.3rem;
+  margin: 1rem 0;
+  padding: 1rem 0;
+  text-decoration: ${({ active }) => (active ? "underline" : "none")};
+  text-transform: uppercase;
+  transition: color 0.3s linear;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    text-align: center;
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.primaryHover};
+  }
+`;
+
+const SliderLink = styled.a`
+  color: ${({ theme }) => theme.primaryDark};
+  font-weight: normal;
+  letter-spacing: normal;
+  text-decoration: none;
+  text-transform: none;
+`;
+
+const StyledSlider = styled.nav`
   background: ${({ theme }) => theme.primaryLight};
   display: flex;
   flex-direction: column;
@@ -21,42 +49,37 @@ export const StyledMenu = styled.nav`
   @media (max-width: ${({ theme }) => theme.mobile}) {
     width: 100%;
   }
-
-  span {
-    color: ${({ theme }) => theme.primaryDark};
-    cursor: pointer;
-    font-size: 1.5rem;
-    font-weight: bold;
-    letter-spacing: 0.3rem;
-    margin: 1rem 0;
-    padding: 1rem 0;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.3s linear;
-
-    @media (max-width: ${({ theme }) => theme.mobile}) {
-      font-size: 1.5rem;
-      text-align: center;
-    }
-
-    &:hover {
-      color: ${({ theme }) => theme.primaryHover};
-    }
-  }
 `;
 
-const Menu = ({ isOpen, layer, layers, onSelectLayer }) => (
-  <StyledMenu isOpen={isOpen}>
+const SliderSpacer = styled.span`
+  flex-grow: 1;
+`;
+
+const Slider = ({ isOpen, layer, layers, onSelectLayer }) => (
+  <StyledSlider isOpen={isOpen}>
     {Object.entries(layers).map(([key, name]) => (
-      <span
-        className={cn({ active: layer === key })}
+      <SliderItem
+        active={layer === key}
         key={key}
         onClick={() => onSelectLayer(key)}
       >
         {name}
-      </span>
+      </SliderItem>
     ))}
-  </StyledMenu>
+
+    <SliderSpacer />
+
+    {/* <SliderItem>
+        <SliderLink href="mailto:lauri.pesonen@iki.fi">
+        &copy; Lauri Pesonen
+        </SliderLink>
+        </SliderItem> */}
+    <SliderItem>
+      <SliderLink href="http://osm.org/copyright">
+        &copy; OpenStreetMap contributors
+      </SliderLink>
+    </SliderItem>
+  </StyledSlider>
 );
 
-export default Menu;
+export default Slider;
