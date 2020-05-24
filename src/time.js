@@ -1,3 +1,5 @@
+export const DAYS = 7;
+
 export function generateHours(dst) {
   const start = 7 + (dst ? 0 : -1);
   const ret = [];
@@ -43,18 +45,18 @@ export default class Time {
   }
 
   decDay() {
-    return new Time((this.day + 6) % 7);
+    return new Time((this.day + 6) % DAYS);
   }
 
   incDay() {
-    return new Time((this.day + 1) % 7);
+    return new Time((this.day + 1) % DAYS);
   }
 
   decHour() {
     let hour = this.hour - 1;
     let day = this.day;
     if (hour < 0) {
-      day = (this.day + 6) % 7;
+      day = (this.day + 6) % DAYS;
     }
     return new Time(day, hour);
   }
@@ -63,7 +65,7 @@ export default class Time {
     let hour = this.hour + 1;
     let day = this.day;
     if (hour >= HOURS.length) {
-      day = (day + 1) % 7;
+      day = (day + 1) % DAYS;
     }
     return new Time(day, hour);
   }
