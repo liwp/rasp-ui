@@ -35,7 +35,7 @@ const StyledSlider = styled.nav`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   left: 0;
   padding: 2rem;
   position: absolute;
@@ -55,6 +55,8 @@ const SliderSpacer = styled.span`
   flex-grow: 1;
 `;
 
+const MAILTO = "mailto:lauri.pesonen@iki.fi?subject=RASP%20feedback";
+
 const Slider = ({ isOpen, layer, layers, onSelectLayer }) => (
   <StyledSlider isOpen={isOpen}>
     {Object.entries(layers).map(([key, name]) => (
@@ -69,15 +71,8 @@ const Slider = ({ isOpen, layer, layers, onSelectLayer }) => (
 
     <SliderSpacer />
 
-    {/* <SliderItem>
-        <SliderLink href="mailto:lauri.pesonen@iki.fi">
-        &copy; Lauri Pesonen
-        </SliderLink>
-        </SliderItem> */}
     <SliderItem>
-      <SliderLink href="http://osm.org/copyright">
-        &copy; OpenStreetMap contributors
-      </SliderLink>
+      <SliderLink href={MAILTO}>&copy; Lauri Pesonen</SliderLink>
     </SliderItem>
   </StyledSlider>
 );

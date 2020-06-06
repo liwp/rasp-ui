@@ -65,6 +65,7 @@ export default function LeafletMap({ bounds, url }) {
       <Map
         attributionControl={false}
         center={[lat, lng]}
+        id="mapId"
         onMoveend={(e) => setCenter(e.target.getCenter())}
         onZoomend={(e) => setZoom(e.target.getZoom())}
         zoom={zoom}
