@@ -1,4 +1,5 @@
 import React from "react";
+import { Browser } from "leaflet";
 import {
   AttributionControl,
   ImageOverlay,
@@ -66,8 +67,10 @@ export default function LeafletMap({ bounds, url }) {
         attributionControl={false}
         center={[lat, lng]}
         id="mapId"
+        dragging={!Browser.mobile}
         onMoveend={(e) => setCenter(e.target.getCenter())}
         onZoomend={(e) => setZoom(e.target.getZoom())}
+        tap={!Browser.mobile}
         zoom={zoom}
         zoomControl={false}
       >
