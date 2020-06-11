@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactGA from "react-ga";
 import styled, { ThemeProvider } from "styled-components";
 import { StringParam } from "use-query-params";
 
@@ -34,12 +35,17 @@ const App = () => {
     "layer",
     StringParam
   );
-  // Pre-fetch current layer overlays for 12pm
   useEffect(() => {
+    // Pre-fetch current layer overlays for 12pm
     for (let i = 0; i < DAYS; i++) {
       const image = new Image();
       image.src = raspUrl(layer, new Time(i));
     }
+    // Record a GA event
+    ReactGA.event({
+      category: "Overlay",
+      action: `select ${layer}`,
+    });
   }, [layer]);
   const [time, setTime] = useState(Time.today());
 
