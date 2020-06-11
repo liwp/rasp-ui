@@ -20,13 +20,16 @@ const ATTRIBUTION = "&copy; OpenStreetMap contributors";
 const URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 const StyledMap = styled.div`
-  display: grid;
-  height: 100%;
-  width: 100%;
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-items: center;
 `;
 
 const SpinnerContainer = styled.div`
   align-items: center;
+  background: rgba(0, 0, 0, 0.2);
   display: grid;
   height: 100%;
   justify-items: center;
@@ -34,18 +37,6 @@ const SpinnerContainer = styled.div`
   position: absolute;
   width: 100%;
   z-index: 480;
-
-  &:before {
-    background-color: ${({ theme }) => theme.primaryDark};
-    content: "";
-    height: 100%;
-    left: 0;
-    opacity: 0.2;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 479;
-  }
 `;
 
 export default function LeafletMap({ bounds, url }) {

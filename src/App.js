@@ -7,7 +7,7 @@ import GlobalStyles from "./GlobalStyles";
 import Header from "./Header";
 import LeafletMap from "./LeafletMap";
 import Menu from "./Menu";
-import { useStatefulQueryParam, useVhHack } from "./hooks";
+import { useStatefulQueryParam } from "./hooks";
 import { raspBounds, raspUrl } from "./rasp";
 import theme from "./theme";
 import Time, { DAYS } from "./time";
@@ -30,7 +30,6 @@ const StyledApp = styled.div`
 `;
 
 const App = () => {
-  useVhHack();
   const [layer = DEFAULT_LAYER, setLayer] = useStatefulQueryParam(
     "layer",
     StringParam

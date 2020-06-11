@@ -1,9 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-  html, body {
+  html, body, #root {
     margin: 0;
     padding: 0;
+    height: 100%;
   }
   *, *::after, *::before {
     box-sizing: border-box;
@@ -13,19 +14,13 @@ const GlobalStyles = createGlobalStyle`
     background: #0D0C1D;
     color: #EFFFFA;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
     justify-content: center;
     text-rendering: optimizeLegibility;
     touch-action: manipulation;
   }
 
-  #root {
-    height: 100%;
-  }
-
   #mapId {
-    height: 100%;
+    flex: 1;
     width: 100%;
   }
 
