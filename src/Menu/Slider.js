@@ -7,7 +7,6 @@ const SliderItem = styled.span`
   font-size: 1.5rem;
   font-weight: bold;
   letter-spacing: 0.3rem;
-  margin: 1rem 0;
   padding: 1rem 0;
   text-decoration: ${({ active }) => (active ? "underline" : "none")};
   text-transform: uppercase;

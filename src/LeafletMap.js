@@ -33,8 +33,10 @@ const SpinnerContainer = styled.div`
   display: grid;
   height: 100%;
   justify-items: center;
+  left: 0;
   padding-bottom: ${({ theme }) => theme.toolbarHeight};
   position: absolute;
+  top: 0;
   width: 100%;
   z-index: 480;
 `;
