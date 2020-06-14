@@ -30,7 +30,7 @@ const StyledApp = styled.div`
   height: 100%;
 `;
 
-const App = () => {
+const App = ({ isGaEnabled }) => {
   const [layer = DEFAULT_LAYER, setLayer] = useStatefulQueryParam(
     "layer",
     StringParam
@@ -41,12 +41,11 @@ const App = () => {
       const image = new Image();
       image.src = raspUrl(layer, new Time(i));
     }
-    // Record a GA event
-    ReactGA.event({
-      category: "Overlay",
-      action: `select ${layer}`,
-    });
-  }, [layer]);
+    // Record a page view
+    if (isGaEnabled) {
+      ReactGA.pageview(layer);
+    }
+  }, [isGaEnabled, layer]);
   const [time, setTime] = useState(Time.today());
 
   return (
