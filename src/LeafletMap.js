@@ -3,8 +3,9 @@ import { Browser } from "leaflet";
 import {
   AttributionControl,
   ImageOverlay,
-  Map,
+  MapContainer,
   TileLayer,
+  useMapEvents,
 } from "react-leaflet";
 import styled from "styled-components";
 import { useQueryParam, useQueryParams, NumberParam } from "use-query-params";
@@ -41,6 +42,25 @@ const SpinnerContainer = styled.div`
   z-index: 480;
 `;
 
+function Map({ bounds, url, onMove, onZoom }) {
+  const map = useMapEvents({
+    moveend(e) {
+      onMove(e.target.getCenter());
+    },
+    zoomend(e) {
+      onZoom(e.target.getZoom());
+    },
+  });
+  return (
+    <>
+      <AttributionControl position="bottomright" prefix={false} />
+      <ImageOverlay bounds={bounds} opacity="0.5" url={url}>
+        <TileLayer attribution={ATTRIBUTION} url={URL} />
+      </ImageOverlay>
+    </>
+  );
+}
+
 export default function LeafletMap({ bounds, url }) {
   const [{ lat = DEFAULT_LAT, lng = DEFAULT_LNG }, setCenter] = useQueryParams({
     lat: NumberParam,
@@ -56,22 +76,17 @@ export default function LeafletMap({ bounds, url }) {
           <Spinner size={"4rem"} />
         </SpinnerContainer>
       )}
-      <Map
+      <MapContainer
         attributionControl={false}
         center={[lat, lng]}
         id="mapId"
         dragging={!Browser.mobile}
-        onMoveend={(e) => setCenter(e.target.getCenter())}
-        onZoomend={(e) => setZoom(e.target.getZoom())}
         tap={!Browser.mobile}
         zoom={zoom}
         zoomControl={false}
       >
-        <AttributionControl position="bottomright" prefix={false} />
-        <ImageOverlay bounds={bounds} opacity="0.5" url={url}>
-          <TileLayer attribution={ATTRIBUTION} url={URL} />
-        </ImageOverlay>
-      </Map>
+        <Map bounds={bounds} url={url} onMove={setCenter} onZoom={setZoom} />
+      </MapContainer>
     </StyledMap>
   );
 }
