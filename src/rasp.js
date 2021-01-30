@@ -44,5 +44,5 @@ export function raspBounds(time) {
 export function raspUrl(layer, time) {
   const dir = DAY_OFFSET_TO_DIR[time.day];
   const hour = time.hourToString();
-  return `http://rasp.mrsap.org/${dir}/FCST/${layer}.curr.${hour}lst.d2.body.png`;
+  return `http://images.weserv.nl/?url=rasp.mrsap.org/${dir}/FCST/${layer}.curr.${hour}lst.d2.body.png`;
 }
