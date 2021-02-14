@@ -1,20 +1,18 @@
+import { latLngBounds } from "leaflet";
+
 const RESOLUTION_TO_BOUNDS = {
-  2: [
+  2: latLngBounds([
     [49.438343, -10.7258911],
     [59.3545303, 2.7919922],
-  ],
-  // borked
-  4: [
-    [
-      [49.3974648, -10.9672241],
-      [59.603405, 2.7442017],
-    ],
-  ],
-  // borked
-  12: [
+  ]),
+  4: latLngBounds([
+    [49.3974648, -10.9672241],
+    [59.603405, 2.7442017],
+  ]),
+  12: latLngBounds([
     [48.8365898, -11.6136475],
     [59.7539062, 3.2641602],
-  ],
+  ]),
 };
 
 const DAY_OFFSET_TO_RESOLUTION = [

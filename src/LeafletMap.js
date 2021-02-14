@@ -1,4 +1,3 @@
-import React from "react";
 import { Browser } from "leaflet";
 import {
   AttributionControl,
@@ -51,6 +50,7 @@ function Map({ bounds, url, onMove, onZoom }) {
       onZoom(e.target.getZoom());
     },
   });
+
   return (
     <>
       <AttributionControl position="bottomright" prefix={false} />
