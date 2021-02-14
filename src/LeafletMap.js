@@ -80,8 +80,6 @@ export default function LeafletMap({ bounds, url }) {
         attributionControl={false}
         center={[lat, lng]}
         id="mapId"
-        dragging={!Browser.mobile}
-        tap={!Browser.mobile}
         zoom={zoom}
         zoomControl={false}
       >
