@@ -39,9 +39,41 @@ export function raspBounds(time) {
   return RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[time.day]];
 }
 
-export function raspUrl(layer, time) {
+// We're trying to return a cache key for the image proxy that we use such that
+// the key stays the same when RASP has finalised the renderings for a given
+// day, AND the key keeps changing before this has happened. BUT we also still
+// want to do some caching for perf reasons.
+//
+// According to RASP they start their run at 4AM BST, and should be finished by
+// noon BST. So we return an ISO date as the key after noon BST. And before that
+// we return ISO timestamps that have been truncated to `resolution` minutes, eg
+// at 09:58 with a 10min resolution we would truncate the time to 09:50.
+//
+// Finally, it's possible to pass in a cacheResolution query param, and to force
+// the cache resolution to 1min regardless of the time of day by setting
+// `cacheResolution=0`. This should help with debugging.
+export function cacheKey(now, resolution) {
+  const date = now.toISOString().split("T")[0];
+  const noonBst = new Date(`${date}T12:00:00.000+01:00`);
+  // After noon the resolution is always 60 min
+  if (now >= noonBst && resolution > 0) {
+    return date;
+  }
+  if (resolution < 1) {
+    resolution = 1;
+  }
+
+  now.setMinutes(Math.trunc(now.getMinutes() / resolution) * resolution);
+  now.setSeconds(0);
+  now.setMilliseconds(0);
+  return now.toISOString();
+}
+
+export function raspUrl(layer, time, cacheResolution) {
   const dir = DAY_OFFSET_TO_DIR[time.day];
   const hour = time.hourToString();
-  const date = new Date().toISOString().split("T")[0];
-  return `http://images.weserv.nl/?url=rasp.mrsap.org/${dir}/FCST/${layer}.curr.${hour}lst.d2.body.png&date=${date}`;
+  const key = cacheKey(new Date(), cacheResolution);
+  const url = `https://images.weserv.nl/?url=rasp.mrsap.org/${dir}/FCST/${layer}.curr.${hour}lst.d2.body.png&date=${key}`;
+  console.log("overlay url:", url);
+  return url;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactGA from "react-ga";
 import styled, { ThemeProvider } from "styled-components";
-import { StringParam } from "use-query-params";
+import { NumberParam, StringParam, useQueryParam } from "use-query-params";
 
 import Footer from "./Footer";
 import GlobalStyles from "./GlobalStyles";
@@ -11,7 +11,7 @@ import Menu from "./Menu";
 import { useStatefulQueryParam } from "./hooks";
 import { raspBounds, raspUrl } from "./rasp";
 import theme from "./theme";
-import Time, { DAYS } from "./time";
+import Time, { DAYS, HOURS } from "./time";
 
 const LAYER_NAME = {
   zsfclclmask: "Cu Cloudbase",
@@ -35,18 +35,33 @@ const App = ({ isGaEnabled }) => {
     "layer",
     StringParam
   );
+  // Default caching buckets to 10min
+  const [cacheResolution = 10] = useQueryParam("cacheResolution", NumberParam);
+  const [time, setTime] = useState(Time.today());
+  const day = time.day;
+
+  // Record a page view
   useEffect(() => {
-    // Pre-fetch current layer overlays for 12pm
-    for (let i = 0; i < DAYS; i++) {
-      const image = new Image();
-      image.src = raspUrl(layer, new Time(i));
-    }
-    // Record a page view
     if (isGaEnabled) {
       ReactGA.pageview(layer);
     }
   }, [isGaEnabled, layer]);
-  const [time, setTime] = useState(Time.today());
+
+  // Pre-fetch current layer for all hours of this day
+  useEffect(() => {
+    for (let hour in HOURS) {
+      const image = new Image();
+      image.src = raspUrl(layer, new Time(day, hour), cacheResolution);
+    }
+  }, [layer, day]);
+
+  // Pre-fetch current layer for all days for 12pm
+  useEffect(() => {
+    for (let i = 0; i < DAYS; i++) {
+      const image = new Image();
+      image.src = raspUrl(layer, new Time(i), cacheResolution);
+    }
+  }, [layer]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,7 +71,10 @@ const App = ({ isGaEnabled }) => {
 
       <StyledApp>
         <Header layer={LAYER_NAME[layer]} time={time} />
-        <LeafletMap bounds={raspBounds(time)} url={raspUrl(layer, time)} />
+        <LeafletMap
+          bounds={raspBounds(time)}
+          url={raspUrl(layer, time, cacheResolution)}
+        />
         <Footer onTimeChange={setTime} time={time} />
       </StyledApp>
     </ThemeProvider>
