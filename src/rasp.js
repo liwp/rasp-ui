@@ -54,11 +54,11 @@ export function raspBounds(time) {
 // `cacheResolution=0`. This should help with debugging.
 export function cacheKey(now, resolution) {
   const date = now.toISOString().split("T")[0];
-  const noonBst = new Date(`${date}T12:00:00.000+01:00`);
+  // const noonBst = new Date(`${date}T12:00:00.000+01:00`);
   // After noon the resolution is always 60 min
-  if (now >= noonBst && resolution > 0) {
-    return date;
-  }
+  // if (now >= noonBst && resolution > 0) {
+  //   return date;
+  // }
   if (resolution < 1) {
     resolution = 1;
   }

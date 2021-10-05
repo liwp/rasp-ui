@@ -26,7 +26,7 @@ test("HOURS during winter", () => {
     "1500",
     "1600",
     "1700",
-    "1800",
+    "1800"
   ]);
 });
 
@@ -44,7 +44,7 @@ test("HOURS during DST", () => {
     "1600",
     "1700",
     "1800",
-    "1900",
+    "1900"
   ]);
 });
 
@@ -52,7 +52,7 @@ test("dayToString outputs correct format", () => {
   const time = new Time(3, 0);
   const now = new Date(2018, 1, 1, 14);
   const s = time.dayToString(now);
-  expect(s).toEqual("Sun, Feb 4");
+  expect(s).toEqual("Sun, 4 Feb");
 });
 
 test("hourToString outputs correct format", () => {

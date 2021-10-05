@@ -3,7 +3,7 @@ import { cacheKey } from "./rasp";
 describe("cacheKey", () => {
   test("basecase after noon", () => {
     const now = new Date("2021-12-17T13:24:56+01:00");
-    expect(cacheKey(now, 5)).toBe("2021-12-17");
+    expect(cacheKey(now, 5)).toBe("2021-12-17T12:20:00.000Z");
   });
 
   test("basecase before noon", () => {
@@ -31,10 +31,10 @@ describe("cacheKey", () => {
         [new Date("2021-12-17T03:24:56+01:00"), "2021-12-17T02:20:00.000Z"],
         // Around noon BST
         [new Date("2021-12-17T11:59:59.999+01:00"), "2021-12-17T10:55:00.000Z"],
-        [new Date("2021-12-17T12:00:00+01:00"), "2021-12-17"],
-        [new Date("2021-12-17T12:00:00.001+01:00"), "2021-12-17"],
+        [new Date("2021-12-17T12:00:00+01:00"), "2021-12-17T11:00:00.000Z"],
+        [new Date("2021-12-17T12:00:00.001+01:00"), "2021-12-17T11:00:00.000Z"],
         // Midnight
-        [new Date("2021-12-17T23:59:59.999+01:00"), "2021-12-17"],
+        [new Date("2021-12-17T23:59:59.999+01:00"), "2021-12-17T22:55:00.000Z"]
       ];
 
       testCases.forEach(([date, key]) => expect(cacheKey(date, 5)).toBe(key));
@@ -44,7 +44,7 @@ describe("cacheKey", () => {
   describe("after noon", () => {
     test("fixed key", () => {
       const a = new Date("2021-12-17T13:24:56+01:00");
-      const b = new Date("2021-12-17T23:24:56+01:00");
+      const b = new Date("2021-12-17T13:29:56+01:00");
       expect(cacheKey(a, 10)).toBe(cacheKey(b, 10));
     });
   });
