@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import ReactGA from "react-ga";
 import { QueryParamProvider } from "use-query-params";
 
@@ -12,10 +12,11 @@ if (gaId) {
   ReactGA.initialize(gaId, { debug: gaDebug });
 }
 
-ReactDOM.render(
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(
   <QueryParamProvider>
     <App isGaEnabled={!!gaId} />
-  </QueryParamProvider>,
-  document.getElementById("root")
+  </QueryParamProvider>
 );
 registerServiceWorker();
