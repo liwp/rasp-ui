@@ -3,16 +3,16 @@ import { latLngBounds } from "leaflet";
 const RESOLUTION_TO_BOUNDS = {
   2: latLngBounds([
     [49.438343, -10.7258911],
-    [59.3545303, 2.7919922],
+    [59.3545303, 2.7919922]
   ]),
   4: latLngBounds([
     [49.3974648, -10.9672241],
-    [59.603405, 2.7442017],
+    [59.603405, 2.7442017]
   ]),
   12: latLngBounds([
     [48.8365898, -11.6136475],
-    [59.7539062, 3.2641602],
-  ]),
+    [59.7539062, 3.2641602]
+  ])
 };
 
 const DAY_OFFSET_TO_RESOLUTION = [
@@ -22,7 +22,7 @@ const DAY_OFFSET_TO_RESOLUTION = [
   12, // 5 - +3 days  - UK12
   12, // 6 - +4 days  - UK12
   12, // 7 - +5 days  - UK12
-  12, // 8 - +6 days  - UK12
+  12 // 8 - +6 days  - UK12
 ];
 
 const DAY_OFFSET_TO_DIR = [
@@ -32,7 +32,7 @@ const DAY_OFFSET_TO_DIR = [
   "UK12+3",
   "UK12+4",
   "UK12+5",
-  "UK12+6",
+  "UK12+6"
 ];
 
 export function raspBounds(time) {
@@ -73,7 +73,5 @@ export function raspUrl(layer, time, cacheResolution) {
   const dir = DAY_OFFSET_TO_DIR[time.day];
   const hour = time.hourToString();
   const key = cacheKey(new Date(), cacheResolution);
-  const url = `https://images.weserv.nl/?url=rasp.mrsap.org/${dir}/FCST/${layer}.curr.${hour}lst.d2.body.png&date=${key}`;
-  console.log("overlay url:", url);
-  return url;
+  return `https://cdn19.mrsap.org/${dir}/FCST/${layer}.curr.${hour}lst.d2.body.png`;
 }
