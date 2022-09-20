@@ -4,7 +4,7 @@ import ReactGA from "react-ga";
 import { QueryParamProvider } from "use-query-params";
 
 import App from "./App";
-import {unregister} from "./registerServiceWorker";
+import { unregister } from "./registerServiceWorker";
 
 const gaId = process.env.REACT_APP_GA_ID; // "UA-168680303-1";
 if (gaId) {

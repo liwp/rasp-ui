@@ -35,8 +35,6 @@ const App = ({ isGaEnabled }) => {
     "layer",
     StringParam
   );
-  // Default caching buckets to 10min
-  const [cacheResolution = 10] = useQueryParam("cacheResolution", NumberParam);
   const [time, setTime] = useState(Time.today());
   const day = time.day;
 
@@ -51,7 +49,7 @@ const App = ({ isGaEnabled }) => {
   useEffect(() => {
     for (let hour in HOURS) {
       const image = new Image();
-      image.src = raspUrl(layer, new Time(day, hour), cacheResolution);
+      image.src = raspUrl(layer, new Time(day, hour));
     }
   }, [layer, day]);
 
@@ -59,7 +57,7 @@ const App = ({ isGaEnabled }) => {
   useEffect(() => {
     for (let i = 0; i < DAYS; i++) {
       const image = new Image();
-      image.src = raspUrl(layer, new Time(i), cacheResolution);
+      image.src = raspUrl(layer, new Time(i));
     }
   }, [layer]);
 
@@ -71,10 +69,7 @@ const App = ({ isGaEnabled }) => {
 
       <StyledApp>
         <Header layer={LAYER_NAME[layer]} time={time} />
-        <LeafletMap
-          bounds={raspBounds(time)}
-          url={raspUrl(layer, time, cacheResolution)}
-        />
+        <LeafletMap bounds={raspBounds(time)} url={raspUrl(layer, time)} />
         <Footer onTimeChange={setTime} time={time} />
       </StyledApp>
     </ThemeProvider>

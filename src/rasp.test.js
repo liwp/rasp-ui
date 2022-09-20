@@ -1,55 +1,37 @@
-import { cacheKey } from "./rasp";
+import { dayOffsetToDir } from "./rasp";
+import Time from "./time";
 
-describe("cacheKey", () => {
-  test("basecase after noon", () => {
-    const now = new Date("2021-12-17T13:24:56+01:00");
-    expect(cacheKey(now, 5)).toBe("2021-12-17T12:20:00.000Z");
+describe("dayOffsetToDir", () => {
+  function sut(day) {
+    const time = new Time(day, 0);
+    return dayOffsetToDir(time);
+  }
+
+  test("today", () => {
+    expect(sut(0)).toBe("UK2");
   });
 
-  test("basecase before noon", () => {
-    const now = new Date("2021-12-17T10:24:56+01:00");
-    expect(cacheKey(now, 5)).toBe("2021-12-17T09:20:00.000Z");
+  test("tomorrow", () => {
+    expect(sut(1)).toBe("UK4+1");
   });
 
-  describe("before noon", () => {
-    test("timestamps within bucket share key", () => {
-      const a = new Date("2021-12-17T03:24:56+01:00");
-      const b = new Date("2021-12-17T03:39:56+01:00");
-      expect(cacheKey(a, 20)).toBe(cacheKey(b, 20));
-    });
-
-    test("timestamps outside resolution have different keys", () => {
-      const a = new Date("2021-12-17T03:24:56+01:00");
-      const b = new Date("2021-12-17T03:30:56+01:00");
-      expect(cacheKey(a, 10)).not.toBe(cacheKey(b, 10));
-    });
-
-    test("example keys", () => {
-      const testCases = [
-        [new Date("2021-12-17T03:26:56+01:00"), "2021-12-17T02:25:00.000Z"],
-        [new Date("2021-12-17T03:25:56+01:00"), "2021-12-17T02:25:00.000Z"],
-        [new Date("2021-12-17T03:24:56+01:00"), "2021-12-17T02:20:00.000Z"],
-        // Around noon BST
-        [new Date("2021-12-17T11:59:59.999+01:00"), "2021-12-17T10:55:00.000Z"],
-        [new Date("2021-12-17T12:00:00+01:00"), "2021-12-17T11:00:00.000Z"],
-        [new Date("2021-12-17T12:00:00.001+01:00"), "2021-12-17T11:00:00.000Z"],
-        // Midnight
-        [new Date("2021-12-17T23:59:59.999+01:00"), "2021-12-17T22:55:00.000Z"],
-      ];
-
-      testCases.forEach(([date, key]) => expect(cacheKey(date, 5)).toBe(key));
-    });
+  test("today + 2", () => {
+    expect(sut(2)).toBe("UK12+2");
   });
 
-  describe("after noon", () => {
-    test("fixed key", () => {
-      const a = new Date("2021-12-17T13:24:56+01:00");
-      const b = new Date("2021-12-17T13:29:56+01:00");
-      expect(cacheKey(a, 10)).toBe(cacheKey(b, 10));
-    });
+  test("today + 3", () => {
+    expect(sut(3)).toBe("UK12+3");
+  });
+
+  test("today + 4", () => {
+    expect(sut(4)).toBe("UK12+4");
+  });
+
+  test("today + 5", () => {
+    expect(sut(5)).toBe("UK12+5");
+  });
+
+  test("today + 6", () => {
+    expect(sut(6)).toBe("UK12+6");
   });
 });
-
-function addMinutes(date, minutes) {
-  return new Date(date.getTime() + minutes * 60000);
-}
