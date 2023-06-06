@@ -1,6 +1,6 @@
 import { latLngBounds } from "leaflet";
 
-const RASP_BASE_URL = "https://cdn10.mrsap.org";
+const RASP_BASE_URL = "https://cdn19.mrsap.org";
 
 const RESOLUTION_TO_BOUNDS = {
   2: latLngBounds([
@@ -19,7 +19,7 @@ const RESOLUTION_TO_BOUNDS = {
 
 const DAY_OFFSET_TO_RESOLUTION = [
   2, //  0 - Today    - 2Km
-  4, //  1 - Tomorrow - UK4
+  2, //  1 - Tomorrow - UK4
   12, // 2 - +2 days  - UK12
   12, // 3 - +3 days  - UK12
   12, // 4 - +4 days  - UK12
