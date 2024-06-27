@@ -1,6 +1,6 @@
 import { latLngBounds } from "leaflet";
 
-const RASP_BASE_URL = "https://cdn19.mrsap.org";
+const RASP_BASE_URL = "https://cdn10.mrsap.org";
 
 const RESOLUTION_TO_BOUNDS = {
   2: latLngBounds([
