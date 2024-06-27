@@ -18,6 +18,6 @@ const root = createRoot(container);
 root.render(
   <QueryParamProvider adapter={WindowHistoryAdapter}>
     <App isGaEnabled={!!gaId} />
-  </QueryParamProvider>
+  </QueryParamProvider>,
 );
 unregister();

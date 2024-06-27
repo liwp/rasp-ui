@@ -33,7 +33,7 @@ const StyledApp = styled.div`
 const App = ({ isGaEnabled }) => {
   const [layer = DEFAULT_LAYER, setLayer] = useStatefulQueryParam(
     "layer",
-    StringParam
+    StringParam,
   );
   const [time, setTime] = useState(Time.today());
   const day = time.day;
