@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import ReactGA from "react-ga";
 import { QueryParamProvider } from "use-query-params";
+import { WindowHistoryAdapter } from "use-query-params/adapters/window";
 
 import App from "./App";
 import { unregister } from "./registerServiceWorker";
@@ -15,7 +16,7 @@ if (gaId) {
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
-  <QueryParamProvider>
+  <QueryParamProvider adapter={WindowHistoryAdapter}>
     <App isGaEnabled={!!gaId} />
   </QueryParamProvider>
 );
