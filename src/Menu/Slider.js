@@ -1,5 +1,3 @@
-import React from "react";
-
 const MAILTO = "mailto:lauri.pesonen@iki.fi?subject=RASP%20feedback";
 
 const Slider = ({ isOpen, layer, layers, onSelectLayer }) => (

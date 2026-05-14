@@ -1,5 +1,3 @@
-import React from "react";
-
 const Spinner = ({ size }) => (
   <svg
     className="spinner"

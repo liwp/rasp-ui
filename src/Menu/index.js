@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import MenuButton from "./MenuButton";
 import Slider from "./Slider";

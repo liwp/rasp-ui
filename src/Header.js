@@ -1,5 +1,3 @@
-import React from "react";
-
 const Header = ({ layer, time }) => (
   <header className="header">
     <span>
