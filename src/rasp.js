@@ -23,7 +23,7 @@ const RESOLUTION_TO_BOUNDS = {
 
 const DAY_OFFSET_TO_RESOLUTION = [
   2, //  0 - Today    - 2Km
-  2, //  1 - Tomorrow - UK4
+  4, //  1 - Tomorrow - UK4
   12, // 2 - +2 days  - UK12
   12, // 3 - +3 days  - UK12
   12, // 4 - +4 days  - UK12

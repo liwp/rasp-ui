@@ -71,12 +71,15 @@ export default class Time {
   }
 
   dayToString(now = new Date()) {
-    now.setDate(now.getDate() + this.day);
-    return now.toLocaleDateString("en-GB", {
+    const date = new Date(now);
+    date.setDate(date.getDate() + this.day);
+    const parts = new Intl.DateTimeFormat("en-GB", {
       weekday: "short",
       month: "short",
       day: "numeric",
-    });
+    }).formatToParts(date);
+    const part = (type) => parts.find((item) => item.type === type).value;
+    return `${part("weekday")}, ${part("day")} ${part("month")}`;
   }
 
   hourToString() {
