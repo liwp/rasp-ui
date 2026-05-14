@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styled, { ThemeProvider } from "styled-components";
 import { StringParam } from "use-query-params";
 
 import Footer from "./Footer";
-import GlobalStyles from "./GlobalStyles";
 import Header from "./Header";
 import LeafletMap from "./LeafletMap";
 import Menu from "./Menu";
 import { useStatefulQueryParam } from "./hooks";
 import { raspBounds, raspUrl } from "./rasp";
-import theme from "./theme";
 import Time, { DAYS, HOURS } from "./time";
 
 const LAYER_NAME = {
@@ -22,12 +19,6 @@ const LAYER_NAME = {
 };
 
 const DEFAULT_LAYER = "stars";
-
-const StyledApp = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
 
 const App = () => {
   const [layer = DEFAULT_LAYER, setLayer] = useStatefulQueryParam(
@@ -54,17 +45,15 @@ const App = () => {
   }, [layer]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-
+    <>
       <Menu layer={layer} layers={LAYER_NAME} onLayerChange={setLayer} />
 
-      <StyledApp>
+      <div className="app">
         <Header layer={LAYER_NAME[layer]} time={time} />
         <LeafletMap bounds={raspBounds(time)} url={raspUrl(layer, time)} />
         <Footer onTimeChange={setTime} time={time} />
-      </StyledApp>
-    </ThemeProvider>
+      </div>
+    </>
   );
 };
 

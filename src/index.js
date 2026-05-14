@@ -5,6 +5,7 @@ import { WindowHistoryAdapter } from "use-query-params/adapters/window";
 
 import App from "./App";
 import { unregister } from "./registerServiceWorker";
+import "./styles.css";
 
 const container = document.getElementById("root");
 const root = createRoot(container);

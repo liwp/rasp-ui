@@ -1,4 +1,3 @@
-import { Browser } from "leaflet";
 import {
   AttributionControl,
   ImageOverlay,
@@ -6,7 +5,6 @@ import {
   TileLayer,
   useMapEvents,
 } from "react-leaflet";
-import styled from "styled-components";
 import { useQueryParam, useQueryParams, NumberParam } from "use-query-params";
 
 import Spinner from "./Spinner";
@@ -19,30 +17,8 @@ const DEFAULT_LNG = -0.14591;
 const ATTRIBUTION = "&copy; OpenStreetMap contributors";
 const URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
-const StyledMap = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-items: center;
-`;
-
-const SpinnerContainer = styled.div`
-  align-items: center;
-  background: rgba(0, 0, 0, 0.2);
-  display: grid;
-  height: 100%;
-  justify-items: center;
-  left: 0;
-  padding-bottom: ${({ theme }) => theme.toolbarHeight};
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: 480;
-`;
-
 function Map({ bounds, url, onMove, onZoom }) {
-  const map = useMapEvents({
+  useMapEvents({
     moveend(e) {
       onMove(e.target.getCenter());
     },
@@ -70,11 +46,11 @@ export default function LeafletMap({ bounds, url }) {
   const isLoading = useIsImageLoading(url, 500);
 
   return (
-    <StyledMap>
+    <div className="map">
       {isLoading && (
-        <SpinnerContainer>
+        <div className="spinner-container">
           <Spinner size={"4rem"} />
-        </SpinnerContainer>
+        </div>
       )}
       <MapContainer
         attributionControl={false}
@@ -85,6 +61,6 @@ export default function LeafletMap({ bounds, url }) {
       >
         <Map bounds={bounds} url={url} onMove={setCenter} onZoom={setZoom} />
       </MapContainer>
-    </StyledMap>
+    </div>
   );
 }

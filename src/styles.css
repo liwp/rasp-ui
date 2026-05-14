@@ -1,0 +1,246 @@
+:root {
+  --primary-dark: #0d0c1d;
+  --primary-light: #effffa;
+  --primary-hover: #343078;
+  --toolbar-height: 4rem;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  align-items: center;
+  background: var(--primary-dark);
+  color: var(--primary-light);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  justify-content: center;
+  text-rendering: optimizeLegibility;
+  touch-action: manipulation;
+}
+
+#mapId {
+  flex: 1;
+  width: 100%;
+}
+
+.bm-item:focus {
+  outline: none;
+}
+
+.bm-item.active {
+  filter: brightness(50%);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  background: linear-gradient(to bottom, var(--primary-dark), 5%, transparent);
+  display: grid;
+  height: var(--toolbar-height);
+  place-items: center;
+  position: absolute;
+  text-shadow: 1px 1px var(--primary-dark);
+  width: 100%;
+  z-index: 500;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: var(--toolbar-height);
+  place-items: center;
+  width: 100%;
+  z-index: 500;
+}
+
+.footer__button {
+  background: none;
+  border: none;
+  color: var(--primary-light);
+  cursor: pointer;
+  display: block;
+  height: 100%;
+  outline: none;
+  width: 90%;
+}
+
+.map {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-items: center;
+}
+
+.spinner-container {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  display: grid;
+  height: 100%;
+  justify-items: center;
+  left: 0;
+  padding-bottom: var(--toolbar-height);
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 480;
+}
+
+.spinner {
+  animation: rotate 2s linear infinite;
+}
+
+.spinner .path {
+  stroke: var(--primary-dark);
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+.slider {
+  background: var(--primary-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  left: 0;
+  padding: 2rem;
+  position: absolute;
+  text-align: left;
+  top: 0;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1100;
+}
+
+.slider--open {
+  transform: translateX(0);
+}
+
+.slider__item {
+  color: var(--primary-dark);
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 0.3rem;
+  padding: 1rem 0;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s linear;
+}
+
+.slider__item--active {
+  text-decoration: underline;
+}
+
+.slider__item:hover {
+  color: var(--primary-hover);
+}
+
+.slider__link {
+  color: var(--primary-dark);
+  font-weight: normal;
+  letter-spacing: normal;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.slider__spacer {
+  flex-grow: 1;
+}
+
+.burger {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 2rem;
+  justify-content: space-around;
+  left: 0;
+  margin: 1rem;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  width: 2rem;
+  z-index: 1110;
+}
+
+.burger:focus {
+  outline: none;
+}
+
+.burger div {
+  width: 2rem;
+  height: 0.25rem;
+  background: var(--primary-light);
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
+}
+
+.burger--open div {
+  background: var(--primary-dark);
+}
+
+.burger--open div:first-child {
+  transform: rotate(45deg);
+}
+
+.burger--open div:nth-child(2) {
+  opacity: 0;
+}
+
+.burger--open div:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
+@media (max-width: 576px) {
+  .slider {
+    width: 100%;
+  }
+
+  .slider__item {
+    text-align: center;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
