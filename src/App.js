@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ReactGA from "react-ga";
 import styled, { ThemeProvider } from "styled-components";
-import { NumberParam, StringParam, useQueryParam } from "use-query-params";
+import { StringParam } from "use-query-params";
 
 import Footer from "./Footer";
 import GlobalStyles from "./GlobalStyles";
@@ -30,20 +29,13 @@ const StyledApp = styled.div`
   height: 100%;
 `;
 
-const App = ({ isGaEnabled }) => {
+const App = () => {
   const [layer = DEFAULT_LAYER, setLayer] = useStatefulQueryParam(
     "layer",
     StringParam,
   );
   const [time, setTime] = useState(Time.today());
   const day = time.day;
-
-  // Record a page view
-  useEffect(() => {
-    if (isGaEnabled) {
-      ReactGA.pageview(layer);
-    }
-  }, [isGaEnabled, layer]);
 
   // Pre-fetch current layer for all hours of this day
   useEffect(() => {
