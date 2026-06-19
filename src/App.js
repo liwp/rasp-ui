@@ -3,9 +3,9 @@ import { StringParam } from "use-query-params";
 
 import Footer from "./Footer";
 import Header from "./Header";
+import { useStatefulQueryParam } from "./hooks";
 import LeafletMap from "./LeafletMap";
 import Menu from "./Menu";
-import { useStatefulQueryParam } from "./hooks";
 import { raspBounds, raspUrl } from "./rasp";
 import Time, { DAYS, HOURS } from "./time";
 
@@ -30,7 +30,7 @@ const App = () => {
 
   // Pre-fetch current layer for all hours of this day
   useEffect(() => {
-    for (let hour in HOURS) {
+    for (const hour in HOURS) {
       const image = new Image();
       image.src = raspUrl(layer, new Time(day, hour));
     }

@@ -1,4 +1,4 @@
-import Time, { HOURS, generateHours, isDst } from "./time";
+import Time, { generateHours, HOURS, isDst } from "./time";
 
 test("isDst in winter", () => {
   // Fri Nov 18 2016 00:00:00 GMT+0000 (GMT)

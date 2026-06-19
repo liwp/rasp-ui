@@ -5,10 +5,9 @@ import {
   TileLayer,
   useMapEvents,
 } from "react-leaflet";
-import { useQueryParam, useQueryParams, NumberParam } from "use-query-params";
-
-import Spinner from "./Spinner";
+import { NumberParam, useQueryParam, useQueryParams } from "use-query-params";
 import { useIsImageLoading } from "./hooks";
+import Spinner from "./Spinner";
 
 const DEFAULT_ZOOM = 8;
 const DEFAULT_LAT = 52.18572;
@@ -17,7 +16,7 @@ const DEFAULT_LNG = -0.14591;
 const ATTRIBUTION = "&copy; OpenStreetMap contributors";
 const URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
-function Map({ bounds, url, onMove, onZoom }) {
+function MapInner({ bounds, url, onMove, onZoom }) {
   useMapEvents({
     moveend(e) {
       onMove(e.target.getCenter());
@@ -59,7 +58,12 @@ export default function LeafletMap({ bounds, url }) {
         zoom={zoom}
         zoomControl={false}
       >
-        <Map bounds={bounds} url={url} onMove={setCenter} onZoom={setZoom} />
+        <MapInner
+          bounds={bounds}
+          url={url}
+          onMove={setCenter}
+          onZoom={setZoom}
+        />
       </MapContainer>
     </div>
   );

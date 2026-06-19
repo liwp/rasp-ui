@@ -15,15 +15,14 @@
     "build": "react-scripts build",
     "deploy": "npm run build && surge build https://rasp.surge.sh",
     "eject": "react-scripts eject",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "prettier": "prettier --write src/**",
+    "lint": "biome check src",
+    "lint:fix": "biome check --write src",
+    "format": "biome format --write src",
     "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.8.3",
+    "@biomejs/biome": "2.5.0",
     "surge": "^0.27.4"
   },
   "browserslist": [
