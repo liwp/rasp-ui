@@ -4,6 +4,7 @@ import { WindowHistoryAdapter } from "use-query-params/adapters/window";
 
 import App from "./App";
 import { unregister } from "./registerServiceWorker";
+import "leaflet/dist/leaflet.css";
 import "./styles.css";
 
 const container = document.getElementById("root");
