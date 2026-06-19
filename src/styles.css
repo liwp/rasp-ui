@@ -134,12 +134,18 @@ body {
 }
 
 .slider__item {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
   color: var(--primary-dark);
   cursor: pointer;
+  font-family: inherit;
   font-size: 1.5rem;
   font-weight: bold;
   letter-spacing: 0.3rem;
   padding: 1rem 0;
+  text-align: left;
   text-decoration: none;
   text-transform: uppercase;
   transition: color 0.3s linear;

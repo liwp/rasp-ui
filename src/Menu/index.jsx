@@ -1,8 +1,7 @@
 import { useState } from "react";
-
+import { useOnClickOutside } from "../hooks";
 import MenuButton from "./MenuButton";
 import Slider from "./Slider";
-import { useOnClickOutside } from "../hooks";
 
 const Menu = ({ layer, layers, onLayerChange }) => {
   const [isOpen, setOpen] = useState(false);

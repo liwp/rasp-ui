@@ -2,33 +2,32 @@
   "name": "rasp",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "leaflet": "^1.9.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-icons": "^5.6.0",
     "react-leaflet": "^5.0.0",
-    "react-scripts": "5.0.1",
     "use-query-params": "^2.2.2"
   },
   "scripts": {
-    "build": "react-scripts build",
-    "deploy": "npm run build && surge build https://rasp.surge.sh",
-    "eject": "react-scripts eject",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "prettier": "prettier --write src/**",
-    "start": "react-scripts start",
-    "test": "react-scripts test --env=jsdom"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome check src",
+    "lint:fix": "biome check --write src",
+    "format": "biome format --write src",
+    "deploy": "bun run build && surge dist https://rasp.surge.sh"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.8.3",
-    "surge": "^0.27.4"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
-  ]
+    "@biomejs/biome": "2.5.0",
+    "@vitejs/plugin-react": "^6.0.2",
+    "jsdom": "^29.1.1",
+    "surge": "^0.27.4",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.9"
+  }
 }

@@ -3,13 +3,14 @@ const MAILTO = "mailto:lauri.pesonen@iki.fi?subject=RASP%20feedback";
 const Slider = ({ isOpen, layer, layers, onSelectLayer }) => (
   <nav className={`slider${isOpen ? " slider--open" : ""}`}>
     {Object.entries(layers).map(([key, name]) => (
-      <span
+      <button
+        type="button"
         className={`slider__item${layer === key ? " slider__item--active" : ""}`}
         key={key}
         onClick={() => onSelectLayer(key)}
       >
         {name}
-      </span>
+      </button>
     ))}
 
     <span className="slider__spacer" />

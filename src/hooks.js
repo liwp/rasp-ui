@@ -29,7 +29,7 @@ export const useOnClickOutside = (handler) => {
     return () => {
       document.removeEventListener("mousedown", listener);
     };
-  }, [ref, handler]);
+  }, [handler]);
 
   return ref;
 };
