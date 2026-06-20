@@ -3,7 +3,8 @@ import type Time from "./time";
 
 // NOTE: the CDN keeps changing, and even worse, the wrong CDN returns "old"
 // data!
-const RASP_BASE_URL = "https://cdn19.mrsap.org";
+const RASP_BASE_URL =
+  import.meta.env.VITE_RASP_BASE_URL ?? "https://cdn19.mrsap.org";
 
 const RESOLUTION_TO_BOUNDS: Record<number, LatLngBounds> = {
   2: latLngBounds([
