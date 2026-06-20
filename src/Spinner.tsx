@@ -1,4 +1,4 @@
-const Spinner = ({ size }) => (
+const Spinner = ({ size }: { size: string }) => (
   <svg
     className="spinner"
     style={{ width: size, height: size }}

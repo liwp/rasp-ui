@@ -1,6 +1,16 @@
 const MAILTO = "mailto:lauri.pesonen@iki.fi?subject=RASP%20feedback";
 
-const Slider = ({ isOpen, layer, layers, onSelectLayer }) => (
+const Slider = ({
+  isOpen,
+  layer,
+  layers,
+  onSelectLayer,
+}: {
+  isOpen: boolean;
+  layer: string;
+  layers: Record<string, string>;
+  onSelectLayer: (key: string) => void;
+}) => (
   <nav className={`slider${isOpen ? " slider--open" : ""}`}>
     {Object.entries(layers).map(([key, name]) => (
       <button

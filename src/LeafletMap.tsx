@@ -1,3 +1,4 @@
+import type { LatLng, LatLngBounds, LatLngTuple } from "leaflet";
 import {
   AttributionControl,
   ImageOverlay,
@@ -16,7 +17,17 @@ const DEFAULT_LNG = -0.14591;
 const ATTRIBUTION = "&copy; OpenStreetMap contributors";
 const URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
-function MapInner({ bounds, url, onMove, onZoom }) {
+function MapInner({
+  bounds,
+  url,
+  onMove,
+  onZoom,
+}: {
+  bounds: LatLngBounds;
+  url: string;
+  onMove: (center: LatLng) => void;
+  onZoom: (zoom: number) => void;
+}) {
   useMapEvents({
     moveend(e) {
       onMove(e.target.getCenter());
@@ -29,20 +40,29 @@ function MapInner({ bounds, url, onMove, onZoom }) {
   return (
     <>
       <AttributionControl position="bottomright" prefix={false} />
-      <ImageOverlay bounds={bounds} opacity="0.5" url={url}>
+      <ImageOverlay bounds={bounds} opacity={0.5} url={url}>
         <TileLayer attribution={ATTRIBUTION} url={URL} />
       </ImageOverlay>
     </>
   );
 }
 
-export default function LeafletMap({ bounds, url }) {
-  const [{ lat = DEFAULT_LAT, lng = DEFAULT_LNG }, setCenter] = useQueryParams({
+export default function LeafletMap({
+  bounds,
+  url,
+}: {
+  bounds: LatLngBounds;
+  url: string;
+}) {
+  const [{ lat, lng }, setCenter] = useQueryParams({
     lat: NumberParam,
     lng: NumberParam,
   });
-  const [zoom = DEFAULT_ZOOM, setZoom] = useQueryParam("zoom", NumberParam);
+  const [zoomParam, setZoom] = useQueryParam("zoom", NumberParam);
   const isLoading = useIsImageLoading(url, 500);
+
+  const center: LatLngTuple = [lat ?? DEFAULT_LAT, lng ?? DEFAULT_LNG];
+  const zoom = zoomParam ?? DEFAULT_ZOOM;
 
   return (
     <div className="map">
@@ -53,7 +73,7 @@ export default function LeafletMap({ bounds, url }) {
       )}
       <MapContainer
         attributionControl={false}
-        center={[lat, lng]}
+        center={center}
         id="mapId"
         zoom={zoom}
         zoomControl={false}
