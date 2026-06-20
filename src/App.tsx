@@ -9,7 +9,7 @@ import Menu from "./Menu";
 import { raspBounds, raspUrl } from "./rasp";
 import Time, { DAYS, HOURS } from "./time";
 
-const LAYER_NAME = {
+const LAYER_NAME: Record<string, string> = {
   zsfclclmask: "Cu Cloudbase",
   rain1: "Rain",
   stars: "Star rating",
@@ -21,18 +21,16 @@ const LAYER_NAME = {
 const DEFAULT_LAYER = "stars";
 
 const App = () => {
-  const [layer = DEFAULT_LAYER, setLayer] = useStatefulQueryParam(
-    "layer",
-    StringParam,
-  );
+  const [layerParam, setLayer] = useStatefulQueryParam("layer", StringParam);
+  const layer = layerParam ?? DEFAULT_LAYER;
   const [time, setTime] = useState(Time.today());
   const day = time.day;
 
   // Pre-fetch current layer for all hours of this day
   useEffect(() => {
-    for (const hour in HOURS) {
+    for (let i = 0; i < HOURS.length; i++) {
       const image = new Image();
-      image.src = raspUrl(layer, new Time(day, hour));
+      image.src = raspUrl(layer, new Time(day, i));
     }
   }, [layer, day]);
 

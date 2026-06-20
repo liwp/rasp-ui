@@ -3,9 +3,19 @@ import { useOnClickOutside } from "../hooks";
 import MenuButton from "./MenuButton";
 import Slider from "./Slider";
 
-const Menu = ({ layer, layers, onLayerChange }) => {
+const Menu = ({
+  layer,
+  layers,
+  onLayerChange,
+}: {
+  layer: string;
+  layers: Record<string, string>;
+  onLayerChange: (layer: string) => void;
+}) => {
   const [isOpen, setOpen] = useState(false);
-  const menuContainerRef = useOnClickOutside(() => setOpen(false));
+  const menuContainerRef = useOnClickOutside<HTMLDivElement>(() =>
+    setOpen(false),
+  );
 
   return (
     <div ref={menuContainerRef}>
@@ -14,8 +24,8 @@ const Menu = ({ layer, layers, onLayerChange }) => {
         isOpen={isOpen}
         layer={layer}
         layers={layers}
-        onSelectLayer={(layer) => {
-          onLayerChange(layer);
+        onSelectLayer={(key) => {
+          onLayerChange(key);
           setOpen(false);
         }}
       />

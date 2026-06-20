@@ -8,7 +8,13 @@ import {
 
 import Time from "./time";
 
-const Footer = ({ onTimeChange, time }) => (
+const Footer = ({
+  onTimeChange,
+  time,
+}: {
+  onTimeChange: (time: Time) => void;
+  time: Time;
+}) => (
   <footer className="footer">
     <button
       type="button"

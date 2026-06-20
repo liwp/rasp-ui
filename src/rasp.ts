@@ -1,12 +1,11 @@
-import { latLngBounds } from "leaflet";
+import { type LatLngBounds, latLngBounds } from "leaflet";
+import type Time from "./time";
 
 // NOTE: the CDN keeps changing, and even worse, the wrong CDN returns "old"
 // data!
-
-//const RASP_BASE_URL = "https://cdn10.mrsap.org";
 const RASP_BASE_URL = "https://cdn19.mrsap.org";
 
-const RESOLUTION_TO_BOUNDS = {
+const RESOLUTION_TO_BOUNDS: Record<number, LatLngBounds> = {
   2: latLngBounds([
     [49.438343, -10.7258911],
     [59.3545303, 2.7919922],
@@ -21,7 +20,7 @@ const RESOLUTION_TO_BOUNDS = {
   ]),
 };
 
-const DAY_OFFSET_TO_RESOLUTION = [
+const DAY_OFFSET_TO_RESOLUTION: number[] = [
   2, //  0 - Today    - 2Km
   4, //  1 - Tomorrow - UK4
   12, // 2 - +2 days  - UK12
@@ -31,18 +30,18 @@ const DAY_OFFSET_TO_RESOLUTION = [
   12, // 6 - +6 days  - UK12
 ];
 
-export function dayOffsetToDir(time) {
+export function dayOffsetToDir(time: Time): string {
   const day = time.day;
   const resolution = DAY_OFFSET_TO_RESOLUTION[day];
   const suffix = day === 0 ? "" : `+${day}`;
   return `UK${resolution}${suffix}`;
 }
 
-export function raspBounds(time) {
+export function raspBounds(time: Time): LatLngBounds {
   return RESOLUTION_TO_BOUNDS[DAY_OFFSET_TO_RESOLUTION[time.day]];
 }
 
-export function raspUrl(layer, time) {
+export function raspUrl(layer: string, time: Time): string {
   const dir = dayOffsetToDir(time);
   const hour = time.hourToString();
   return `${RASP_BASE_URL}/${dir}/FCST/${layer}.curr.${hour}lst.d2.body.png`;

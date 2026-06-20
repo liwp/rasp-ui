@@ -1,4 +1,12 @@
-const Burger = ({ isOpen, setOpen }) => {
+import type { Dispatch, SetStateAction } from "react";
+
+const Burger = ({
+  isOpen,
+  setOpen,
+}: {
+  isOpen: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
   return (
     <button
       type="button"

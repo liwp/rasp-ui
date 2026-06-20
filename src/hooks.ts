@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { useQueryParam } from "use-query-params";
+import { type RefObject, useEffect, useRef, useState } from "react";
+import { type QueryParamConfig, useQueryParam } from "use-query-params";
 
-export const useIsImageLoading = (url, delay = 0) => {
+export const useIsImageLoading = (url: string, delay = 0): boolean => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(true), delay);
@@ -15,12 +15,14 @@ export const useIsImageLoading = (url, delay = 0) => {
   return isLoading;
 };
 
-export const useOnClickOutside = (handler) => {
-  const ref = useRef();
+export const useOnClickOutside = <T extends HTMLElement>(
+  handler: (event: MouseEvent) => void,
+): RefObject<T | null> => {
+  const ref = useRef<T>(null);
 
   useEffect(() => {
-    const listener = (event) => {
-      if (!ref.current || ref.current.contains(event.target)) {
+    const listener = (event: MouseEvent) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) {
         return;
       }
       handler(event);
@@ -34,12 +36,15 @@ export const useOnClickOutside = (handler) => {
   return ref;
 };
 
-export const useStatefulQueryParam = (name, paramConfig) => {
+export const useStatefulQueryParam = <T>(
+  name: string,
+  paramConfig: QueryParamConfig<T>,
+): [T, (newState: T) => void] => {
   const [queryParam, setQueryParam] = useQueryParam(name, paramConfig);
   const [state, setState] = useState(queryParam);
   return [
     state,
-    (newState) => {
+    (newState: T) => {
       setQueryParam(newState);
       setState(newState);
     },
