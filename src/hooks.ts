@@ -1,18 +1,31 @@
 import { type RefObject, useEffect, useRef, useState } from "react";
 import { type QueryParamConfig, useQueryParam } from "use-query-params";
 
-export const useIsImageLoading = (url: string, delay = 0): boolean => {
-  const [isLoading, setIsLoading] = useState(true);
+type ImageStatus = "loading" | "loaded" | "error";
+
+export const useImageStatus = (url: string, delay = 500): ImageStatus => {
+  const [status, setStatus] = useState<ImageStatus>("loading");
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(true), delay);
+    // Debounce: keep the prior status for `delay` ms so fast layer/time
+    // switches don't flash a spinner.
+    const timer = setTimeout(() => setStatus("loading"), delay);
     const image = new Image();
     image.src = url;
     image.onload = () => {
       clearTimeout(timer);
-      setIsLoading(false);
+      setStatus("loaded");
+    };
+    image.onerror = () => {
+      clearTimeout(timer);
+      setStatus("error");
+    };
+    return () => {
+      clearTimeout(timer);
+      image.onload = null;
+      image.onerror = null;
     };
   }, [url, delay]);
-  return isLoading;
+  return status;
 };
 
 export const useOnClickOutside = <T extends HTMLElement>(

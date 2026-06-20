@@ -103,6 +103,31 @@ body {
   z-index: 480;
 }
 
+.forecast-error {
+  align-items: center;
+  display: grid;
+  height: 100%;
+  justify-items: center;
+  left: 0;
+  padding: 1rem;
+  padding-bottom: var(--toolbar-height);
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 480;
+}
+
+.forecast-error p {
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 0.5rem;
+  color: var(--primary-light);
+  font-size: 1.1rem;
+  margin: 0;
+  max-width: 24rem;
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
 .spinner {
   animation: rotate 2s linear infinite;
 }

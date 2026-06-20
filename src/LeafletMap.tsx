@@ -7,7 +7,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { NumberParam, useQueryParam, useQueryParams } from "use-query-params";
-import { useIsImageLoading } from "./hooks";
+import { useImageStatus } from "./hooks";
 import Spinner from "./Spinner";
 
 const DEFAULT_ZOOM = 8;
@@ -59,16 +59,21 @@ export default function LeafletMap({
     lng: NumberParam,
   });
   const [zoomParam, setZoom] = useQueryParam("zoom", NumberParam);
-  const isLoading = useIsImageLoading(url, 500);
+  const status = useImageStatus(url, 500);
 
   const center: LatLngTuple = [lat ?? DEFAULT_LAT, lng ?? DEFAULT_LNG];
   const zoom = zoomParam ?? DEFAULT_ZOOM;
 
   return (
     <div className="map">
-      {isLoading && (
+      {status === "loading" && (
         <div className="spinner-container">
           <Spinner size={"4rem"} />
+        </div>
+      )}
+      {status === "error" && (
+        <div className="forecast-error">
+          <p>⚠ Forecast unavailable — the RASP CDN may have moved.</p>
         </div>
       )}
       <MapContainer
