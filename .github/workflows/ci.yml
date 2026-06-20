@@ -3,7 +3,13 @@ name: CI
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '.beads/**'
+      - '**/*.md'
   pull_request:
+    paths-ignore:
+      - '.beads/**'
+      - '**/*.md'
 
 jobs:
   check:
