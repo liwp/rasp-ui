@@ -2,6 +2,7 @@
   "name": "rasp",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "leaflet": "^1.9.4",
