@@ -18,6 +18,7 @@ const Footer = ({
   <footer className="footer">
     <button
       type="button"
+      aria-label="Previous day"
       className="footer__button"
       onClick={() => onTimeChange(time.decDay())}
     >
@@ -25,6 +26,7 @@ const Footer = ({
     </button>
     <button
       type="button"
+      aria-label="Previous hour"
       className="footer__button"
       onClick={() => onTimeChange(time.decHour())}
     >
@@ -32,6 +34,7 @@ const Footer = ({
     </button>
     <button
       type="button"
+      aria-label="Today"
       className="footer__button"
       onClick={() => onTimeChange(Time.today())}
     >
@@ -39,6 +42,7 @@ const Footer = ({
     </button>
     <button
       type="button"
+      aria-label="Next hour"
       className="footer__button"
       onClick={() => onTimeChange(time.incHour())}
     >
@@ -46,6 +50,7 @@ const Footer = ({
     </button>
     <button
       type="button"
+      aria-label="Next day"
       className="footer__button"
       onClick={() => onTimeChange(time.incDay())}
     >
