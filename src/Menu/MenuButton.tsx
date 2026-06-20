@@ -10,6 +10,8 @@ const Burger = ({
   return (
     <button
       type="button"
+      aria-label="Toggle menu"
+      aria-expanded={isOpen}
       className={`burger${isOpen ? " burger--open" : ""}`}
       onClick={() => setOpen(!isOpen)}
     >
