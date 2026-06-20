@@ -2,7 +2,7 @@ import { dayOffsetToDir } from "./rasp";
 import Time from "./time";
 
 describe("dayOffsetToDir", () => {
-  function sut(day) {
+  function sut(day: number) {
     const time = new Time(day, 0);
     return dayOffsetToDir(time);
   }
