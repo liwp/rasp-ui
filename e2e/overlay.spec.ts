@@ -1,5 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+// These specs mock the CDN via page.route; block the PWA service worker so it
+// doesn't intercept those requests.
+test.use({ serviceWorkers: "block" });
+
 const CDN = "**mrsap.org**";
 
 test("renders the forecast overlay when the CDN responds", async ({ page }) => {
