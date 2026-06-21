@@ -3,7 +3,6 @@ import { QueryParamProvider } from "use-query-params";
 import { WindowHistoryAdapter } from "use-query-params/adapters/window";
 
 import App from "./App";
-import { unregister } from "./registerServiceWorker";
 import "leaflet/dist/leaflet.css";
 import "./styles.css";
 
@@ -17,4 +16,3 @@ root.render(
     <App />
   </QueryParamProvider>,
 );
-unregister();
