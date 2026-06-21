@@ -7,7 +7,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { NumberParam, useQueryParam, useQueryParams } from "use-query-params";
-import { useImageStatus } from "./hooks";
+import { useImageStatus, useStaleOverlay } from "./hooks";
 import Spinner from "./Spinner";
 
 const DEFAULT_ZOOM = 8;
@@ -60,6 +60,7 @@ export default function LeafletMap({
   });
   const [zoomParam, setZoom] = useQueryParam("zoom", NumberParam);
   const status = useImageStatus(url, 500);
+  const staleLabel = useStaleOverlay(url);
 
   const center: LatLngTuple = [lat ?? DEFAULT_LAT, lng ?? DEFAULT_LNG];
   const zoom = zoomParam ?? DEFAULT_ZOOM;
@@ -74,6 +75,11 @@ export default function LeafletMap({
       {status === "error" && (
         <div className="forecast-error">
           <p>⚠ Forecast unavailable — the RASP CDN may have moved.</p>
+        </div>
+      )}
+      {staleLabel && (
+        <div className="stale-warning">
+          ⚠ Cached forecast from {staleLabel} — may be outdated
         </div>
       )}
       <MapContainer
